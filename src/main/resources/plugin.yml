@@ -1,0 +1,7 @@
+name: StaffMode
+version: 0.1
+main: io.github.itskev.staffmodepp.StaffModePP
+
+commands:
+  staffmode:
+    description: Put the player in vanished mode

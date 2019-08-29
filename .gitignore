@@ -1,0 +1,18 @@
+/build.xml
+/target
+stop.sh
+upload.sh
+
+
+# various other potential build files
+/build
+/bin
+/dist
+/manifest.mf
+dependency-reduced-pom.xml
+
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea/
