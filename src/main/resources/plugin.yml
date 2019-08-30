@@ -7,3 +7,5 @@ commands:
     description: Put the player in staff mode
   vanish:
     description: Put the player in vanished mode
+  noclip:
+    description: Put the player in noclip mode
