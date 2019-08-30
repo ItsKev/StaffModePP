@@ -9,22 +9,19 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
-import java.util.List;
-import java.util.UUID;
-
 public class PlayerEvents implements Listener {
 
     private Plugin plugin;
-    private List<UUID> vanishedStaff;
+    private PlayerManager playerManager;
 
     public PlayerEvents(Plugin plugin, PlayerManager playerManager) {
         this.plugin = plugin;
-        vanishedStaff = playerManager.getVanishedStaff();
+        this.playerManager = playerManager;
     }
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (vanishedStaff.contains(event.getPlayer().getUniqueId())) {
+        if (playerManager.isInStaffMode(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
@@ -33,6 +30,6 @@ public class PlayerEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Server server = plugin.getServer();
         Player player = event.getPlayer();
-        vanishedStaff.forEach(uuid -> player.hidePlayer(server.getPlayer(uuid)));
+        playerManager.getVanishedPlayers().forEach(uuid -> player.hidePlayer(server.getPlayer(uuid)));
     }
 }

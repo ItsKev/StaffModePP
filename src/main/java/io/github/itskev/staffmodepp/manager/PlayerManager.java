@@ -1,24 +1,23 @@
 package io.github.itskev.staffmodepp.manager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.util.*;
 
 public class PlayerManager {
 
-    private List<UUID> vanishedStaff;
+    private List<UUID> staffPlayers;
+    private Map<UUID, Location> staffPlayerSavedLocations;
     private List<UUID> vanishedPlayers;
     private List<UUID> frozenPlayers;
     private List<UUID> noClipPlayers;
 
     public PlayerManager() {
-        vanishedStaff = new ArrayList<>();
+        staffPlayers = new ArrayList<>();
+        staffPlayerSavedLocations = new HashMap<>();
         vanishedPlayers = new ArrayList<>();
         noClipPlayers = new ArrayList<>();
-    }
-
-    public List<UUID> getVanishedStaff() {
-        return vanishedStaff;
     }
 
     public List<UUID> getVanishedPlayers() {
@@ -31,5 +30,19 @@ public class PlayerManager {
 
     public List<UUID> getNoClipPlayers() {
         return noClipPlayers;
+    }
+
+    public boolean isInStaffMode(Player player) {
+        return staffPlayers.contains(player.getUniqueId());
+    }
+
+    public void addPlayerIntoStaffMode(Player player) {
+        staffPlayers.add(player.getUniqueId());
+        staffPlayerSavedLocations.put(player.getUniqueId(), player.getLocation());
+    }
+
+    public Location removePlayerFromStaffMode(Player player) {
+        staffPlayers.remove(player.getUniqueId());
+        return staffPlayerSavedLocations.remove(player.getUniqueId());
     }
 }
