@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.commands;
 
-import io.github.itskev.staffmodepp.manager.VanishedManager;
+import io.github.itskev.staffmodepp.manager.PlayerManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,8 +17,8 @@ public class StaffModeCommand implements CommandExecutor {
     private List<UUID> vanishedStaff;
     private Plugin plugin;
 
-    public StaffModeCommand(Plugin plugin, VanishedManager vanishedManager) {
-        vanishedStaff = vanishedManager.getVanishedStaff();
+    public StaffModeCommand(Plugin plugin, PlayerManager playerManager) {
+        vanishedStaff = playerManager.getVanishedStaff();
         this.plugin = plugin;
     }
 

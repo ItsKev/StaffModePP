@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.events;
 
-import io.github.itskev.staffmodepp.manager.VanishedManager;
+import io.github.itskev.staffmodepp.manager.PlayerManager;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,9 +17,9 @@ public class PlayerEvents implements Listener {
     private Plugin plugin;
     private List<UUID> vanishedStaff;
 
-    public PlayerEvents(Plugin plugin, VanishedManager vanishedManager) {
+    public PlayerEvents(Plugin plugin, PlayerManager playerManager) {
         this.plugin = plugin;
-        vanishedStaff = vanishedManager.getVanishedStaff();
+        vanishedStaff = playerManager.getVanishedStaff();
     }
 
     @EventHandler
