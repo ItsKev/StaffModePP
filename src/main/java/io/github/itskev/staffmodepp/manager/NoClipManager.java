@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public class NoClipManager {
     private List<UUID> noClipPlayers;
 
     public NoClipManager(Plugin plugin, DataHandler dataHandler) {
-        noClipPlayers = dataHandler.getNoClipPlayers();
+        noClipPlayers = new ArrayList<>();
         this.plugin = plugin;
     }
 

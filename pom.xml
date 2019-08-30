@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.itskev</groupId>
-    <artifactId>StaffModePP</artifactId>
-    <version>0.1</version>
+    <artifactId>StaffModePlusPlus</artifactId>
+    <version>0.2</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

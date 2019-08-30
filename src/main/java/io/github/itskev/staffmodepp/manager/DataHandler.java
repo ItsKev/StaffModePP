@@ -1,6 +1,7 @@
 package io.github.itskev.staffmodepp.manager;
 
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
+import io.github.itskev.staffmodepp.modules.VanishModule;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -10,29 +11,18 @@ public class DataHandler {
 
     private List<UUID> staffPlayers;
     private Map<UUID, Location> staffPlayerSavedLocations;
-    private List<UUID> vanishedPlayers;
-    private List<UUID> frozenPlayers;
-    private List<UUID> noClipPlayers;
     private StaffInventory staffInventory;
+    private VanishModule vanishModule;
 
     public DataHandler() {
         staffPlayers = new ArrayList<>();
         staffPlayerSavedLocations = new HashMap<>();
-        vanishedPlayers = new ArrayList<>();
-        noClipPlayers = new ArrayList<>();
         staffInventory = new StaffInventory();
+        vanishModule = new VanishModule();
     }
 
-    public List<UUID> getVanishedPlayers() {
-        return vanishedPlayers;
-    }
-
-    public List<UUID> getFrozenPlayers() {
-        return frozenPlayers;
-    }
-
-    public List<UUID> getNoClipPlayers() {
-        return noClipPlayers;
+    public VanishModule getVanishModule() {
+        return vanishModule;
     }
 
     public boolean isInStaffMode(Player player) {
@@ -43,11 +33,13 @@ public class DataHandler {
         staffPlayers.add(player.getUniqueId());
         staffPlayerSavedLocations.put(player.getUniqueId(), player.getLocation());
         staffInventory.saveInventory(player);
+        vanishModule.vanishPlayer(player);
     }
 
     public Location removePlayerFromStaffMode(Player player) {
         staffPlayers.remove(player.getUniqueId());
         staffInventory.restoreInventory(player);
+        vanishModule.unVanishPlayer(player);
         return staffPlayerSavedLocations.remove(player.getUniqueId());
     }
 }
