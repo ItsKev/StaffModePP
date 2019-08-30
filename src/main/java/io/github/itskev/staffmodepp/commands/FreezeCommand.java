@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.commands;
 
-import io.github.itskev.staffmodepp.manager.PlayerManager;
+import io.github.itskev.staffmodepp.manager.DataHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,8 +13,8 @@ public class FreezeCommand implements CommandExecutor {
 
     private List<UUID> frozenPlayers;
 
-    public FreezeCommand(PlayerManager playerManager) {
-        frozenPlayers = playerManager.getFrozenPlayers();
+    public FreezeCommand(DataHandler dataHandler) {
+        frozenPlayers = dataHandler.getFrozenPlayers();
     }
 
 

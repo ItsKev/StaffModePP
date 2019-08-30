@@ -12,8 +12,8 @@ public class NoClipManager {
     private Plugin plugin;
     private List<UUID> noClipPlayers;
 
-    public NoClipManager(Plugin plugin, PlayerManager playerManager) {
-        noClipPlayers = playerManager.getNoClipPlayers();
+    public NoClipManager(Plugin plugin, DataHandler dataHandler) {
+        noClipPlayers = dataHandler.getNoClipPlayers();
         this.plugin = plugin;
     }
 

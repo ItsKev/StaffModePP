@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.events;
 
-import io.github.itskev.staffmodepp.manager.PlayerManager;
+import io.github.itskev.staffmodepp.manager.DataHandler;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,16 +12,16 @@ import org.bukkit.plugin.Plugin;
 public class PlayerEvents implements Listener {
 
     private Plugin plugin;
-    private PlayerManager playerManager;
+    private DataHandler dataHandler;
 
-    public PlayerEvents(Plugin plugin, PlayerManager playerManager) {
+    public PlayerEvents(Plugin plugin, DataHandler dataHandler) {
         this.plugin = plugin;
-        this.playerManager = playerManager;
+        this.dataHandler = dataHandler;
     }
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (playerManager.isInStaffMode(event.getPlayer())) {
+        if (dataHandler.isInStaffMode(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
@@ -30,6 +30,6 @@ public class PlayerEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Server server = plugin.getServer();
         Player player = event.getPlayer();
-        playerManager.getVanishedPlayers().forEach(uuid -> player.hidePlayer(server.getPlayer(uuid)));
+        dataHandler.getVanishedPlayers().forEach(uuid -> player.hidePlayer(server.getPlayer(uuid)));
     }
 }

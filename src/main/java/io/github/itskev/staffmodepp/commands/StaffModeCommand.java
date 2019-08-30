@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.commands;
 
-import io.github.itskev.staffmodepp.manager.PlayerManager;
+import io.github.itskev.staffmodepp.manager.DataHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -14,11 +14,11 @@ import java.util.Collection;
 public class StaffModeCommand implements CommandExecutor {
 
     private Plugin plugin;
-    private PlayerManager playerManager;
+    private DataHandler dataHandler;
 
-    public StaffModeCommand(Plugin plugin, PlayerManager playerManager) {
+    public StaffModeCommand(Plugin plugin, DataHandler dataHandler) {
         this.plugin = plugin;
-        this.playerManager = playerManager;
+        this.dataHandler = dataHandler;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class StaffModeCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
-            if (playerManager.isInStaffMode(player)) {
+            if (dataHandler.isInStaffMode(player)) {
                 String message = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("StaffMode-Leave"))
                         .replace("Player", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
@@ -35,7 +35,7 @@ public class StaffModeCommand implements CommandExecutor {
                         p.sendMessage(message);
                     }
                 });
-                Location location = playerManager.removePlayerFromStaffMode(player);
+                Location location = dataHandler.removePlayerFromStaffMode(player);
                 player.teleport(location);
             } else {
                 String message = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("StaffMode-Enter"))
@@ -46,7 +46,7 @@ public class StaffModeCommand implements CommandExecutor {
                         p.sendMessage(message);
                     }
                 });
-                playerManager.addPlayerIntoStaffMode(player);
+                dataHandler.addPlayerIntoStaffMode(player);
             }
         }
         return true;
