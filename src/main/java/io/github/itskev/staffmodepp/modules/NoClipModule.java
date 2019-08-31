@@ -43,7 +43,7 @@ public class NoClipModule {
     }
 
     private void startNoClipTask() {
-        noClipTask = plugin.getServer().getScheduler().runTaskTimer(plugin, this::checkForBlocks, 0, 1);
+        noClipTask = plugin.getServer().getScheduler().runTaskTimer(plugin, this::checkForBlocks, 0, 2);
     }
 
     private void stopNoClipTask() {
@@ -82,8 +82,8 @@ public class NoClipModule {
 
     private boolean isNoClip(Player player) {
         double speed = lastLocation.remove(player.getUniqueId()).distance(player.getLocation()) * 5;
-        player.sendMessage(speed + "");
         lastLocation.put(player.getUniqueId(), player.getLocation());
+        speed = Math.min(Math.max(0.8d, speed), 2d);
         boolean noClip = false;
         if (player.getLocation().add(1 * speed, 0.0D, 0.0D).getBlock().getType() != Material.AIR) {
             noClip = true;
@@ -104,7 +104,6 @@ public class NoClipModule {
         } else if (player.getLocation().add(0.0D, 1.9D, 0.0D).getBlock().getType() != Material.AIR) {
             noClip = true;
         }
-
         return noClip;
     }
 }
