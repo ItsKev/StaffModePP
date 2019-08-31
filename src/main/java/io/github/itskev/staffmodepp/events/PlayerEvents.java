@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 public class PlayerEvents implements Listener {
@@ -31,5 +32,13 @@ public class PlayerEvents implements Listener {
         Server server = plugin.getServer();
         Player player = event.getPlayer();
         dataHandler.getVanishModule().getVanishedPlayers().forEach(uuid -> player.hidePlayer(server.getPlayer(uuid)));
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if (dataHandler.isInStaffMode(player)) {
+            dataHandler.getNoClipModule().removeNoClipPlayer(player);
+        }
     }
 }

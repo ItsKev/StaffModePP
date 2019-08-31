@@ -27,12 +27,12 @@ public class VanishModule {
     public void vanishPlayer(Player player) {
         vanishedPlayers.add(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        onlinePlayers.forEach(o -> player.hidePlayer(player));
+        onlinePlayers.forEach(o -> o.hidePlayer(player));
     }
 
     public void unVanishPlayer(Player player) {
         vanishedPlayers.remove(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        onlinePlayers.forEach(o -> player.showPlayer(player));
+        onlinePlayers.forEach(o -> o.showPlayer(player));
     }
 }

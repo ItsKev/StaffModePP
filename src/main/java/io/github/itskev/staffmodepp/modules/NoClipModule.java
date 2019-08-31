@@ -39,7 +39,7 @@ public class NoClipModule {
 
     public void removeNoClipPlayer(Player player) {
         noClipPlayers.remove(player.getUniqueId());
-        if (noClipPlayers.isEmpty()) {
+        if (noClipPlayers.isEmpty() && noClipTask != null) {
             stopNoClipTask();
         }
     }

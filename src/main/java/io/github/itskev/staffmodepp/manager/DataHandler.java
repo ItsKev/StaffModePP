@@ -21,7 +21,7 @@ public class DataHandler {
     public DataHandler(Plugin plugin) {
         staffPlayers = new ArrayList<>();
         staffPlayerSavedLocations = new HashMap<>();
-        staffInventory = new StaffInventory();
+        staffInventory = new StaffInventory(plugin, this);
         vanishModule = new VanishModule();
         noClipModule = new NoClipModule(plugin);
     }
@@ -51,6 +51,7 @@ public class DataHandler {
         staffPlayers.remove(player.getUniqueId());
         staffInventory.restoreInventory(player);
         vanishModule.unVanishPlayer(player);
+        noClipModule.removeNoClipPlayer(player);
         return staffPlayerSavedLocations.remove(player.getUniqueId());
     }
 }
