@@ -37,7 +37,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <outputDirectory>C:\Minecraft\Servers\1.8.8_paper\plugins</outputDirectory>
+                    <outputDirectory>D:\Minecraft\Servers\1.8.8_paper\plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

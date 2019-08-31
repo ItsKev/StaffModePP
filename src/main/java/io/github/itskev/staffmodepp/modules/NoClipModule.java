@@ -3,23 +3,27 @@ package io.github.itskev.staffmodepp.modules;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class NoClipModule {
     private Plugin plugin;
     private List<UUID> noClipPlayers;
-    private Map<UUID, Location> lastLocation;
+    private List<BlockFace> directions;
 
     private BukkitTask noClipTask;
 
     public NoClipModule(Plugin plugin) {
         noClipPlayers = new ArrayList<>();
         this.plugin = plugin;
-        lastLocation = new HashMap<>();
+        directions = Arrays.asList(BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST);
     }
 
     public boolean isInNoClipMode(Player player) {
@@ -31,19 +35,17 @@ public class NoClipModule {
             startNoClipTask();
         }
         noClipPlayers.add(player.getUniqueId());
-        lastLocation.put(player.getUniqueId(), player.getLocation());
     }
 
     public void removeNoClipPlayer(Player player) {
         noClipPlayers.remove(player.getUniqueId());
-        lastLocation.remove(player.getUniqueId());
         if (noClipPlayers.isEmpty()) {
             stopNoClipTask();
         }
     }
 
     private void startNoClipTask() {
-        noClipTask = plugin.getServer().getScheduler().runTaskTimer(plugin, this::checkForBlocks, 0, 2);
+        noClipTask = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::checkForBlocks, 0, 1);
     }
 
     private void stopNoClipTask() {
@@ -56,7 +58,7 @@ public class NoClipModule {
             Player player = plugin.getServer().getPlayer(noClipPlayer);
             boolean noClip;
             if (player.getGameMode().equals(GameMode.CREATIVE)) {
-                if (player.getLocation().add(0.0D, -0.1D, 0.0D).getBlock().getType() != Material.AIR &&
+                if (player.getLocation().getBlock().getType() != Material.AIR &&
                         player.isSneaking()) {
                     noClip = true;
                 } else {
@@ -64,46 +66,34 @@ public class NoClipModule {
                 }
 
                 if (noClip) {
-                    player.setGameMode(GameMode.SPECTATOR);
+                    plugin.getServer().getScheduler().runTask(plugin, () -> player.setGameMode(GameMode.SPECTATOR));
                 }
             } else if (player.getGameMode().equals(GameMode.SPECTATOR)) {
-                if (player.getLocation().add(0.0D, -0.1D, 0.0D).getBlock().getType() != Material.AIR) {
+                if (player.getLocation().getBlock().getType() != Material.AIR) {
                     noClip = true;
                 } else {
                     noClip = this.isNoClip(player);
                 }
 
                 if (!noClip) {
-                    player.setGameMode(GameMode.CREATIVE);
+                    plugin.getServer().getScheduler().runTask(plugin, () -> player.setGameMode(GameMode.CREATIVE));
                 }
             }
         }
     }
 
     private boolean isNoClip(Player player) {
-        double speed = lastLocation.remove(player.getUniqueId()).distance(player.getLocation()) * 5;
-        lastLocation.put(player.getUniqueId(), player.getLocation());
-        speed = Math.min(Math.max(0.8d, speed), 2d);
-        boolean noClip = false;
-        if (player.getLocation().add(1 * speed, 0.0D, 0.0D).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(-1 * speed, 0.0D, 0.0D).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(0.0D, 0.0D, 1 * speed).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(0.0D, 0.0D, -1 * speed).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(1 * speed, 1.0D, 0.0D).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(-1 * speed, 1.0D, 0.0D).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(0.0D, 1.0D, 1 * speed).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(0.0D, 1.0D, -1 * speed).getBlock().getType() != Material.AIR) {
-            noClip = true;
-        } else if (player.getLocation().add(0.0D, 1.9D, 0.0D).getBlock().getType() != Material.AIR) {
-            noClip = true;
+        List<Location> playerLocations = Arrays.asList(player.getLocation(),
+                player.getLocation().add(0.0D, 1.0D, 0.0D),
+                player.getLocation().add(0.0D, 2.0D, 0.0D));
+
+        for (Location playerLocation : playerLocations) {
+            for (BlockFace blockFace : directions) {
+                if (playerLocation.getBlock().getRelative(blockFace).getType() != Material.AIR) {
+                    return true;
+                }
+            }
         }
-        return noClip;
+        return false;
     }
 }

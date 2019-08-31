@@ -3,6 +3,7 @@ package io.github.itskev.staffmodepp.manager;
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.modules.NoClipModule;
 import io.github.itskev.staffmodepp.modules.VanishModule;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -38,6 +39,7 @@ public class DataHandler {
     }
 
     public void addPlayerIntoStaffMode(Player player) {
+        player.setGameMode(GameMode.CREATIVE);
         staffPlayers.add(player.getUniqueId());
         staffPlayerSavedLocations.put(player.getUniqueId(), player.getLocation());
         staffInventory.saveInventory(player);
@@ -45,6 +47,7 @@ public class DataHandler {
     }
 
     public Location removePlayerFromStaffMode(Player player) {
+        player.setGameMode(GameMode.SURVIVAL);
         staffPlayers.remove(player.getUniqueId());
         staffInventory.restoreInventory(player);
         vanishModule.unVanishPlayer(player);
