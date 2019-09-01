@@ -9,3 +9,9 @@ commands:
     description: Put the player in vanished mode
   noclip:
     description: Put the player in noclip mode
+  freeze:
+    description: Freeze a player
+    usage: /freeze %Player%
+  unfreeze:
+    description: Unfreeze a player
+    usage: /unfreeze %Player%

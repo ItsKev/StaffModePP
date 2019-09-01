@@ -1,6 +1,7 @@
 package io.github.itskev.staffmodepp.events;
 
 import io.github.itskev.staffmodepp.manager.DataHandler;
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,6 +36,9 @@ public class PlayerEvents implements Listener {
         if (dataHandler.getVanishModule().isVanished(player)) {
             plugin.getServer().getOnlinePlayers().forEach(p -> p.hidePlayer(player));
         }
+        if (dataHandler.getFreezeModule().isFrozen(player)) {
+            dataHandler.getFreezeModule().refreezePlayer(player);
+        }
     }
 
     @EventHandler
@@ -42,6 +46,16 @@ public class PlayerEvents implements Listener {
         Player player = event.getPlayer();
         if (dataHandler.isInStaffMode(player)) {
             dataHandler.getNoClipModule().removeNoClipPlayer(player);
+        }
+        if (dataHandler.getFreezeModule().isFrozen(player)) {
+            String stringFromConfig = ConfigHelper.getStringFromConfig("Freeze.CommandExecutedOnDisconnect", event.getPlayer().getDisplayName());
+            if (!stringFromConfig.equals("")) {
+                plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(),
+                        stringFromConfig);
+                dataHandler.getFreezeModule().unfreezePlayer(null, player);
+            } else {
+                dataHandler.getFreezeModule().unfreezePlayerTemp(player);
+            }
         }
     }
 }

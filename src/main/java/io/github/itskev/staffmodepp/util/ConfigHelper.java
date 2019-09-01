@@ -17,7 +17,7 @@ public class ConfigHelper {
     }
 
     public static String getStringFromConfig(String nameInConfig, String playerName) {
-        return getStringFromConfig(nameInConfig).replace("Player", playerName);
+        return getStringFromConfig(nameInConfig).replace("%Player%", playerName);
     }
 
 }
