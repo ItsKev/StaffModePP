@@ -32,6 +32,9 @@ public class PlayerEvents implements Listener {
         Server server = plugin.getServer();
         Player player = event.getPlayer();
         dataHandler.getVanishModule().getVanishedPlayers().forEach(uuid -> player.hidePlayer(server.getPlayer(uuid)));
+        if (dataHandler.getVanishModule().isVanished(player)) {
+            plugin.getServer().getOnlinePlayers().forEach(p -> p.hidePlayer(player));
+        }
     }
 
     @EventHandler

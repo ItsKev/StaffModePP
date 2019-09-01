@@ -1,7 +1,6 @@
 package io.github.itskev.staffmodepp.commands;
 
 import io.github.itskev.staffmodepp.manager.DataHandler;
-import io.github.itskev.staffmodepp.modules.NoClipModule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,12 +22,7 @@ public class NoClipCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (dataHandler.isInStaffMode(player)) {
-                NoClipModule noClipModule = dataHandler.getNoClipModule();
-                if(noClipModule.isInNoClipMode(player)) {
-                    noClipModule.removeNoClipPlayer(player);
-                } else {
-                    noClipModule.addNoClipPlayer(player);
-                }
+                dataHandler.getNoClipModule().toggleNoClip(player);
             }
         }
         return true;

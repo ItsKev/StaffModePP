@@ -1,7 +1,6 @@
 package io.github.itskev.staffmodepp.commands;
 
 import io.github.itskev.staffmodepp.manager.DataHandler;
-import io.github.itskev.staffmodepp.modules.VanishModule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,12 +22,7 @@ public class VanishCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (dataHandler.isInStaffMode(player)) {
-                VanishModule vanishModule = dataHandler.getVanishModule();
-                if (vanishModule.isVanished(player)) {
-                    vanishModule.unVanishPlayer(player);
-                } else {
-                    vanishModule.vanishPlayer(player);
-                }
+                dataHandler.getVanishModule().toggleVanish(player);
             }
         }
         return true;

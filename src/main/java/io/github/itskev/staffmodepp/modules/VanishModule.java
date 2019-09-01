@@ -21,6 +21,14 @@ public class VanishModule {
         return vanishedPlayers;
     }
 
+    public void toggleVanish(Player player) {
+        if (isVanished(player)) {
+            unVanishPlayer(player);
+        } else {
+            vanishPlayer(player);
+        }
+    }
+
     public boolean isVanished(Player player) {
         return vanishedPlayers.contains(player.getUniqueId());
     }

@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 public class HotBarEventHandler implements Listener {
 
@@ -23,7 +24,7 @@ public class HotBarEventHandler implements Listener {
     }
 
     private DataHandler dataHandler;
-    private Collection<ItemStack> modules;
+    private Collection<Module> modules;
 
     private HotBarEventHandler(Plugin plugin, DataHandler dataHandler) {
         this.dataHandler = dataHandler;
@@ -31,7 +32,7 @@ public class HotBarEventHandler implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public void setModules(Collection<ItemStack> modules) {
+    public void setModules(Collection<Module> modules) {
         this.modules = modules;
     }
 
@@ -41,8 +42,16 @@ public class HotBarEventHandler implements Listener {
         if (!dataHandler.isInStaffMode(player)) return;
         ItemStack item = event.getItem();
         if (item != null) {
-            if (modules.contains(item)) {
-                player.sendMessage("Found");
+            Optional<Module> module = modules.stream().filter(m -> m.getItemStack().equals(item)).findFirst();
+            if (module.isPresent()) {
+                switch (module.get().getModuleName()) {
+                    case "Vanish":
+                        dataHandler.getVanishModule().toggleVanish(player);
+                        break;
+                    case "NoClip":
+                        dataHandler.getNoClipModule().toggleNoClip(player);
+                        break;
+                }
             }
         }
     }

@@ -27,6 +27,14 @@ public class NoClipModule {
         directions = Arrays.asList(BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST);
     }
 
+    public void toggleNoClip(Player player) {
+        if (isInNoClipMode(player)) {
+            removeNoClipPlayer(player);
+        } else {
+            addNoClipPlayer(player);
+        }
+    }
+
     public boolean isInNoClipMode(Player player) {
         return noClipPlayers.contains(player.getUniqueId());
     }
