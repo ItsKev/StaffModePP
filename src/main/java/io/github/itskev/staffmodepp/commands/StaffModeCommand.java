@@ -1,7 +1,7 @@
 package io.github.itskev.staffmodepp.commands;
 
 import io.github.itskev.staffmodepp.manager.DataHandler;
-import org.bukkit.ChatColor;
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,22 +27,18 @@ public class StaffModeCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
             if (dataHandler.isInStaffMode(player)) {
-                String message = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("StaffMode-Leave"))
-                        .replace("Player", player.getDisplayName());
+                String message = ConfigHelper.getStringFromConfig("StaffMode-Leave-Broadcast", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
                     if (!p.equals(player)) {
-                        p.showPlayer(player);
                         p.sendMessage(message);
                     }
                 });
                 Location location = dataHandler.removePlayerFromStaffMode(player);
                 player.teleport(location);
             } else {
-                String message = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("StaffMode-Enter"))
-                        .replace("Player", player.getDisplayName());
+                String message = ConfigHelper.getStringFromConfig("StaffMode-Enter-Broadcast", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
                     if (!p.equals(player)) {
-                        p.hidePlayer(player);
                         p.sendMessage(message);
                     }
                 });

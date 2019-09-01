@@ -1,5 +1,6 @@
 package io.github.itskev.staffmodepp.modules;
 
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,10 +35,12 @@ public class NoClipModule {
         if (noClipTask == null) {
             startNoClipTask();
         }
+        player.sendMessage(ConfigHelper.getStringFromConfig("NoClip-Enter"));
         noClipPlayers.add(player.getUniqueId());
     }
 
     public void removeNoClipPlayer(Player player) {
+        player.sendMessage(ConfigHelper.getStringFromConfig("NoClip-Leave"));
         noClipPlayers.remove(player.getUniqueId());
         if (noClipPlayers.isEmpty() && noClipTask != null) {
             stopNoClipTask();

@@ -1,5 +1,6 @@
 package io.github.itskev.staffmodepp.modules;
 
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -25,12 +26,14 @@ public class VanishModule {
     }
 
     public void vanishPlayer(Player player) {
+        player.sendMessage(ConfigHelper.getStringFromConfig("Vanish-Enter"));
         vanishedPlayers.add(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         onlinePlayers.forEach(o -> o.hidePlayer(player));
     }
 
     public void unVanishPlayer(Player player) {
+        player.sendMessage(ConfigHelper.getStringFromConfig("Vanish-Leave"));
         vanishedPlayers.remove(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         onlinePlayers.forEach(o -> o.showPlayer(player));

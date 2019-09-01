@@ -35,7 +35,6 @@ public class StaffInventory {
             inventory.setItem(i, staffInventory.get(i));
         }
         savedInventories.put(player.getUniqueId(), itemsInHotbar);
-
     }
 
     public void restoreInventory(Player player) {
