@@ -1,6 +1,7 @@
 package io.github.itskev.staffmodepp.manager;
 
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
+import io.github.itskev.staffmodepp.modules.FollowModule;
 import io.github.itskev.staffmodepp.modules.FreezeModule;
 import io.github.itskev.staffmodepp.modules.NoClipModule;
 import io.github.itskev.staffmodepp.modules.VanishModule;
@@ -20,6 +21,7 @@ public class DataHandler {
     private VanishModule vanishModule;
     private NoClipModule noClipModule;
     private FreezeModule freezeModule;
+    private FollowModule followModule;
 
     public DataHandler(Plugin plugin) {
         staffPlayers = new ArrayList<>();
@@ -28,6 +30,11 @@ public class DataHandler {
         vanishModule = new VanishModule();
         noClipModule = new NoClipModule(plugin);
         freezeModule = new FreezeModule(plugin);
+        followModule = new FollowModule(plugin, this);
+    }
+
+    public StaffInventory getStaffInventory() {
+        return staffInventory;
     }
 
     public VanishModule getVanishModule() {
@@ -40,6 +47,10 @@ public class DataHandler {
 
     public FreezeModule getFreezeModule() {
         return freezeModule;
+    }
+
+    public FollowModule getFollowModule() {
+        return followModule;
     }
 
     public boolean isInStaffMode(Player player) {

@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
@@ -29,8 +30,15 @@ public class StaffInventory {
         staffInventory.put(1, new Module("NoClip", ItemHelper.createItem(
                 new ItemStack(XMaterial.FEATHER.parseItem()),
                 ChatColor.GOLD + "Toggle NoClip")));
+        staffInventory.put(2, new Module("Follow", ItemHelper.createItem(
+                XMaterial.PLAYER_HEAD.parseItem(),
+                ChatColor.GOLD + "Follow Player")));
 
         hotBarEventHandler.setModules(staffInventory.values());
+    }
+
+    public Map<Integer, Module> getStaffInventory() {
+        return staffInventory;
     }
 
     public void saveInventory(Player player) {
@@ -40,7 +48,15 @@ public class StaffInventory {
             itemsInHotbar.add(inventory.getItem(i));
             Module module = staffInventory.get(i);
             if (module != null) {
-                inventory.setItem(i, module.getItemStack().clone());
+                if (module.getModuleName().equals("Follow")) {
+                    ItemStack skull = module.getItemStack().clone();
+                    SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+                    skullMeta.setOwner(player.getName());
+                    skull.setItemMeta(skullMeta);
+                    inventory.setItem(i, skull);
+                } else {
+                    inventory.setItem(i, module.getItemStack().clone());
+                }
             } else {
                 inventory.setItem(i, null);
             }

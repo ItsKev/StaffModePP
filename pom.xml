@@ -6,7 +6,7 @@
 
     <groupId>io.github.itskev</groupId>
     <artifactId>StaffModePlusPlus</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -15,17 +15,17 @@
 
     <repositories>
         <repository>
-            <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
 
     <dependencies>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

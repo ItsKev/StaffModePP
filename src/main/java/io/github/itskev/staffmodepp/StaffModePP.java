@@ -1,9 +1,6 @@
 package io.github.itskev.staffmodepp;
 
-import io.github.itskev.staffmodepp.commands.FreezeCommand;
-import io.github.itskev.staffmodepp.commands.NoClipCommand;
-import io.github.itskev.staffmodepp.commands.StaffModeCommand;
-import io.github.itskev.staffmodepp.commands.VanishCommand;
+import io.github.itskev.staffmodepp.commands.*;
 import io.github.itskev.staffmodepp.events.PlayerEvents;
 import io.github.itskev.staffmodepp.manager.DataHandler;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
@@ -21,6 +18,7 @@ public class StaffModePP extends JavaPlugin {
         getCommand("noclip").setExecutor(new NoClipCommand(this, dataHandler));
         getCommand("freeze").setExecutor(new FreezeCommand(this, dataHandler));
         getCommand("unfreeze").setExecutor(new FreezeCommand(this, dataHandler));
+        getCommand("follow").setExecutor(new FollowCommand(this, dataHandler));
         getServer().getPluginManager().registerEvents(new PlayerEvents(this, dataHandler), this);
     }
 }

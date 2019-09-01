@@ -1,5 +1,5 @@
 name: StaffModePlusPlus
-version: 0.2
+version: 0.3
 main: io.github.itskev.staffmodepp.StaffModePP
 
 commands:
@@ -15,3 +15,6 @@ commands:
   unfreeze:
     description: Unfreeze a player
     usage: /unfreeze %Player%
+  follow:
+    description: Follow a player
+    usage: /follow %Player%
