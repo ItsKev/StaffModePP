@@ -1,11 +1,13 @@
 package io.github.itskev.staffmodepp.inventory;
 
 import io.github.itskev.staffmodepp.manager.DataHandler;
+import io.github.itskev.staffmodepp.util.XMaterial;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -25,10 +27,12 @@ public class HotBarEventHandler implements Listener {
 
     private DataHandler dataHandler;
     private Collection<Module> modules;
+    private GUIAPI guiapi;
 
     private HotBarEventHandler(Plugin plugin, DataHandler dataHandler) {
         this.dataHandler = dataHandler;
         modules = new ArrayList<>();
+        guiapi = new GUIAPIImpl(plugin);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -51,6 +55,14 @@ public class HotBarEventHandler implements Listener {
                     case "NoClip":
                         dataHandler.getNoClipModule().toggleNoClip(player);
                         break;
+                }
+            }
+            if (item.getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
+                SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+                if (!skullMeta.getOwner().equals(player.getName())) {
+                    Player playerToFollow = player.getServer().getPlayer(skullMeta.getOwner());
+                    GUI followGUI = guiapi.createFollowGUI(player, playerToFollow);
+                    followGUI.openInventory(player);
                 }
             }
         }

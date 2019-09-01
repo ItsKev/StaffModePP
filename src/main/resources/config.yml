@@ -15,3 +15,25 @@ Freeze:
   MessageSentToPlayer: 'You are frozen'
 Follow-Start: '&7[Staff] &aYou started following %Player%.'
 Follow-Stop: '&7[Staff] &cYou stopped following %Player%.'
+PlayerOptionsGUI:
+  0:
+    Type: 345
+    Name: '&7 CPS test'
+    Lore:
+      - 'Test CPS'
+    Command: 'cps %Player% 10'
+  1:
+    Type: 79
+    Name: '&7 Freeze Player'
+    Lore: []
+    Command: 'freeze %Player%'
+  2:
+    Type: 326
+    Name: '&7 Unfreeze Player'
+    Lore: []
+    Command: 'unfreeze %Player%'
+  3:
+    Type: 329
+    Name: '&7 Unfollow Player'
+    Lore: []
+    Command: 'follow %Player%'

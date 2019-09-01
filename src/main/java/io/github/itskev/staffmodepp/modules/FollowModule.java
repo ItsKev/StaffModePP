@@ -100,6 +100,7 @@ public class FollowModule implements Listener {
             name = player.getServer().getOfflinePlayer(playerToUnfollowUUID).getName();
         } else {
             playerToUnfollow.setPassenger(null);
+            player.getVehicle().eject();
             name = playerToUnfollow.getDisplayName();
         }
         String stringFromConfig = ConfigHelper.getStringFromConfig("Follow-Stop", name);
