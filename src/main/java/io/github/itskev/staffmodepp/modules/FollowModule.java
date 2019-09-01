@@ -9,15 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class FollowModule implements Listener {
 
@@ -60,6 +58,21 @@ public class FollowModule implements Listener {
                 unfollowPlayer(player, null);
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if (isFollowingSomeone(player)) {
+            unfollowPlayer(player, null);
+        }
+        Set<Player> players = new HashSet<>();
+        for (Map.Entry<UUID, UUID> entry : followingStaff.entrySet()) {
+            if (entry.getValue().equals(player.getUniqueId())) {
+                players.add(player.getServer().getPlayer(entry.getKey()));
+            }
+        }
+        players.forEach(p -> unfollowPlayer(p, null));
     }
 
     private boolean isFollowingSomeone(Player player) {
