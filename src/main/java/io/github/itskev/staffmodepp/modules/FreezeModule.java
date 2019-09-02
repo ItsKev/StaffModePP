@@ -89,6 +89,7 @@ public class FreezeModule implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
+        // TODO: bug when player on top
         if (frozenPlayers.contains(event.getPlayer().getUniqueId())) {
             event.setTo(event.getFrom());
         }

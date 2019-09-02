@@ -82,7 +82,7 @@ public class FollowModule implements Listener {
     private void followPlayer(Player player, Player playerToFollow) {
         String stringFromConfig = ConfigHelper.getStringFromConfig("Follow-Start", playerToFollow.getDisplayName());
         player.sendMessage(stringFromConfig);
-        Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Follow")).findFirst();
+        Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Player Options")).findFirst();
         if (follow.isPresent()) {
             ItemStack skull = player.getInventory().getItem(follow.get().getKey());
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
@@ -105,7 +105,7 @@ public class FollowModule implements Listener {
         }
         String stringFromConfig = ConfigHelper.getStringFromConfig("Follow-Stop", name);
         player.sendMessage(stringFromConfig);
-        Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Follow")).findFirst();
+        Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Player Options")).findFirst();
         if (follow.isPresent()) {
             ItemStack skull = player.getInventory().getItem(follow.get().getKey());
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();

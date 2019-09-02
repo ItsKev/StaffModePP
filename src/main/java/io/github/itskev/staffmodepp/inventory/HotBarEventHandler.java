@@ -49,10 +49,10 @@ public class HotBarEventHandler implements Listener {
             Optional<Module> module = modules.stream().filter(m -> m.getItemStack().equals(item)).findFirst();
             if (module.isPresent()) {
                 switch (module.get().getModuleName()) {
-                    case "Vanish":
+                    case "Vanish Mode":
                         dataHandler.getVanishModule().toggleVanish(player);
                         break;
-                    case "NoClip":
+                    case "No Clip":
                         dataHandler.getNoClipModule().toggleNoClip(player);
                         break;
                 }

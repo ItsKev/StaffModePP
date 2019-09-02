@@ -1,5 +1,5 @@
 name: StaffModePlusPlus
-version: 0.3
+version: 0.4
 main: io.github.itskev.staffmodepp.StaffModePP
 
 commands:

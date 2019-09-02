@@ -24,13 +24,13 @@ public class StaffInventory {
         hotBarEventHandler = HotBarEventHandler.getInstance(plugin, dataHandler);
 
         //TODO: get from config
-        staffInventory.put(0, new Module("Vanish", ItemHelper.createItem(
+        staffInventory.put(0, new Module("Vanish Mode", ItemHelper.createItem(
                 new ItemStack(XMaterial.POTION.parseItem()),
                 ChatColor.GOLD + "Toggle Vanish")));
-        staffInventory.put(1, new Module("NoClip", ItemHelper.createItem(
+        staffInventory.put(1, new Module("No Clip", ItemHelper.createItem(
                 new ItemStack(XMaterial.FEATHER.parseItem()),
                 ChatColor.GOLD + "Toggle NoClip")));
-        staffInventory.put(2, new Module("Follow", ItemHelper.createItem(
+        staffInventory.put(2, new Module("Player Options", ItemHelper.createItem(
                 XMaterial.PLAYER_HEAD.parseItem(),
                 ChatColor.GOLD + "Follow Player")));
 
@@ -48,7 +48,7 @@ public class StaffInventory {
             itemsInHotbar.add(inventory.getItem(i));
             Module module = staffInventory.get(i);
             if (module != null) {
-                if (module.getModuleName().equals("Follow")) {
+                if (module.getModuleName().equals("Player Options")) {
                     ItemStack skull = module.getItemStack().clone();
                     SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
                     skullMeta.setOwner(player.getName());

@@ -29,7 +29,7 @@ public class DataHandler {
         noClipModule = new NoClipModule(plugin);
         freezeModule = new FreezeModule(plugin);
         followModule = new FollowModule(plugin, this);
-        cpsModule = new CPSModule(plugin);
+        cpsModule = new CPSModule(plugin, this);
     }
 
     public StaffInventory getStaffInventory() {
