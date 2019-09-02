@@ -1,5 +1,6 @@
 package io.github.itskev.staffmodepp.modules;
 
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +32,7 @@ public class CPSModule implements Listener {
 
     public void startCPSForPlayer(Player observedPlayer, Player staffPlayer, int duration) {
         if (!cpsPlayers.containsKey(observedPlayer.getUniqueId())) {
+            staffPlayer.sendMessage(ConfigHelper.getStringFromConfig("CPS-Start", observedPlayer.getDisplayName()));
             cpsPlayers.put(observedPlayer.getUniqueId(),
                     new CPSPlayer(observedPlayer.getUniqueId(), staffPlayer.getUniqueId(), duration));
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {

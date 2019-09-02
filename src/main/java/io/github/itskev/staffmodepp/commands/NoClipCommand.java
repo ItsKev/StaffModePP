@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.commands;
 
-import io.github.itskev.staffmodepp.manager.DataHandler;
+import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

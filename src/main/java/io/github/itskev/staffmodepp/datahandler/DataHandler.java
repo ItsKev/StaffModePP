@@ -1,10 +1,7 @@
-package io.github.itskev.staffmodepp.manager;
+package io.github.itskev.staffmodepp.datahandler;
 
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
-import io.github.itskev.staffmodepp.modules.FollowModule;
-import io.github.itskev.staffmodepp.modules.FreezeModule;
-import io.github.itskev.staffmodepp.modules.NoClipModule;
-import io.github.itskev.staffmodepp.modules.VanishModule;
+import io.github.itskev.staffmodepp.modules.*;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -22,6 +19,7 @@ public class DataHandler {
     private NoClipModule noClipModule;
     private FreezeModule freezeModule;
     private FollowModule followModule;
+    private CPSModule cpsModule;
 
     public DataHandler(Plugin plugin) {
         staffPlayers = new ArrayList<>();
@@ -31,6 +29,7 @@ public class DataHandler {
         noClipModule = new NoClipModule(plugin);
         freezeModule = new FreezeModule(plugin);
         followModule = new FollowModule(plugin, this);
+        cpsModule = new CPSModule(plugin);
     }
 
     public StaffInventory getStaffInventory() {
@@ -51,6 +50,10 @@ public class DataHandler {
 
     public FollowModule getFollowModule() {
         return followModule;
+    }
+
+    public CPSModule getCpsModule() {
+        return cpsModule;
     }
 
     public boolean isInStaffMode(Player player) {

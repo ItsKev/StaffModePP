@@ -1,6 +1,6 @@
 package io.github.itskev.staffmodepp.events;
 
-import io.github.itskev.staffmodepp.manager.DataHandler;
+import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;

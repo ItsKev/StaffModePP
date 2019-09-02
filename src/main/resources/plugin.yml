@@ -18,3 +18,6 @@ commands:
   follow:
     description: Follow a player
     usage: /follow %Player%
+  cps:
+    description: Check clicks per second from player
+    usage: /cps %Player% %Duration%

@@ -1,8 +1,8 @@
 package io.github.itskev.staffmodepp.modules;
 
+import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.inventory.Module;
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
-import io.github.itskev.staffmodepp.manager.DataHandler;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

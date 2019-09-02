@@ -2,18 +2,19 @@ package io.github.itskev.staffmodepp.commands;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class FreezeCommand implements CommandExecutor {
+public class CPSCommand implements CommandExecutor {
 
     private Plugin plugin;
     private DataHandler dataHandler;
 
-    public FreezeCommand(Plugin plugin, DataHandler dataHandler) {
+    public CPSCommand(Plugin plugin, DataHandler dataHandler) {
         this.plugin = plugin;
         this.dataHandler = dataHandler;
     }
@@ -23,15 +24,18 @@ public class FreezeCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (!dataHandler.isInStaffMode(player)) return true;
-            String commandName = command.getName();
-            if (args.length == 0) return false;
-            Player playerToBeFrozen = plugin.getServer().getPlayer(args[0]);
-            if (playerToBeFrozen != null) {
-                if (commandName.equals("freeze")) {
-                    dataHandler.getFreezeModule().freezePlayer(player, playerToBeFrozen);
-                } else {
-                    dataHandler.getFreezeModule().unfreezePlayer(player, playerToBeFrozen);
+            if (args.length < 1) return false;
+            Player cpsPlayer = plugin.getServer().getPlayer(args[0]);
+            if (cpsPlayer != null) {
+                int duration = 10;
+                if (args.length >= 2) {
+                    try {
+                        duration = Integer.parseInt(args[1]);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.BLACK + args[1] + ChatColor.RED + " is not a valid number!");
+                    }
                 }
+                dataHandler.getCpsModule().startCPSForPlayer(cpsPlayer, player, duration);
             } else {
                 player.sendMessage(ConfigHelper.getStringFromConfig("PlayerNotFound", args[0]));
             }

@@ -37,3 +37,4 @@ PlayerOptionsGUI:
     Name: '&7 Unfollow Player'
     Lore: []
     Command: 'follow %Player%'
+CPS-Start: '&7[Staff] &aYou started a cps check for %Player%.'
