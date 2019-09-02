@@ -16,12 +16,10 @@ public class StaffInventory {
 
     private Map<UUID, List<ItemStack>> savedInventories;
     private Map<Integer, Module> staffInventory;
-    private HotBarEventHandler hotBarEventHandler;
 
     public StaffInventory(Plugin plugin, DataHandler dataHandler) {
         savedInventories = new HashMap<>();
         staffInventory = new HashMap<>();
-        hotBarEventHandler = HotBarEventHandler.getInstance(plugin, dataHandler);
 
         //TODO: get from config
         staffInventory.put(0, new Module("Vanish Mode", ItemHelper.createItem(
@@ -33,8 +31,10 @@ public class StaffInventory {
         staffInventory.put(2, new Module("Player Options", ItemHelper.createItem(
                 XMaterial.PLAYER_HEAD.parseItem(),
                 ChatColor.GOLD + "Follow Player")));
-
-        hotBarEventHandler.setModules(staffInventory.values());
+        staffInventory.put(3, new Module("TP To Miners", ItemHelper.createItem(
+                XMaterial.STONE.parseItem(),
+                ChatColor.GOLD + "Open Miners GUI")));
+        HotBarEventHandler.getInstance(plugin, dataHandler).setModules(staffInventory.values());
     }
 
     public Map<Integer, Module> getStaffInventory() {

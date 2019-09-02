@@ -38,3 +38,6 @@ PlayerOptionsGUI:
     Lore: []
     Command: 'follow %Player%'
 CPS-Start: '&7[Staff] &aYou started a cps check for %Player%.'
+Teleport-Menu:
+  Y-Number: 25
+  Auto-Follow: true

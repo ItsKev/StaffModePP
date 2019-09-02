@@ -1,6 +1,9 @@
 package io.github.itskev.staffmodepp.inventory;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.inventory.gui.GUI;
+import io.github.itskev.staffmodepp.inventory.gui.GUIAPI;
+import io.github.itskev.staffmodepp.inventory.gui.GUIAPIImpl;
 import io.github.itskev.staffmodepp.util.XMaterial;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +35,7 @@ public class HotBarEventHandler implements Listener {
     private HotBarEventHandler(Plugin plugin, DataHandler dataHandler) {
         this.dataHandler = dataHandler;
         modules = new ArrayList<>();
-        guiapi = new GUIAPIImpl(plugin);
+        guiapi = new GUIAPIImpl(plugin, dataHandler);
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -54,6 +57,10 @@ public class HotBarEventHandler implements Listener {
                         break;
                     case "No Clip":
                         dataHandler.getNoClipModule().toggleNoClip(player);
+                        break;
+                    case "TP To Miners":
+                        GUI minersGUI = guiapi.createMinersGUI(player);
+                        minersGUI.openInventory(player);
                         break;
                 }
             }

@@ -1,4 +1,4 @@
-package io.github.itskev.staffmodepp.inventory;
+package io.github.itskev.staffmodepp.inventory.gui;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
