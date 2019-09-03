@@ -70,8 +70,8 @@ public class GUIAPIImpl implements GUIAPI {
     }
 
     @Override
-    public GUI createMinersGUI(Player player) {
-        Inventory inventory = Bukkit.createInventory(player, 54, "Select a Miner");
+    public GUI createMinersGUI(Player player, int page) {
+        Inventory inventory = Bukkit.createInventory(player, 54, "Select a Miner Page " + page);
         GUI gui = new GUIImpl(inventory, plugin);
         int[] slots = {
                 10, 11, 12, 13, 14, 15, 16,
@@ -85,25 +85,51 @@ public class GUIAPIImpl implements GUIAPI {
                 .filter(p -> !p.equals(player))
                 .collect(Collectors.toList());
         boolean autoFollow = plugin.getConfig().getBoolean("Teleport-Menu.Auto-Follow");
-        if (miners.size() <= slots.length) {
-            for (int i = 0; i < miners.size(); i++) {
-                ItemStack skull = XMaterial.PLAYER_HEAD.parseItem();
-                SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-                Player miner = miners.get(i);
-                skullMeta.setOwner(miner.getName());
-                skull.setItemMeta(skullMeta);
-                gui.addClickable(skull, slots[i], () -> {
-                    player.teleport(miner);
-                    if (autoFollow) {
-                        dataHandler.getFollowModule().toggleFollow(player, miner);
-                        player.closeInventory();
+        List<? extends Player> minersForPage = getMinersForPage(page, miners);
+        if (page != 1 && minersForPage.isEmpty()) {
+            return null;
+        }
+        for (int i = 0; i < minersForPage.size(); i++) {
+            ItemStack skull = XMaterial.PLAYER_HEAD.parseItem();
+            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+            Player miner = minersForPage.get(i);
+            skullMeta.setOwner(miner.getName());
+            skull.setItemMeta(skullMeta);
+            gui.addClickable(skull, slots[i], () -> {
+                player.teleport(miner);
+                if (autoFollow) {
+                    dataHandler.getFollowModule().toggleFollow(player, miner);
+                    player.closeInventory();
+                }
+            });
+        }
+        if (page > 1) {
+            gui.addClickable(ItemHelper.createItem(XMaterial.ARROW.parseMaterial(), "Previous Page"),
+                    48, () -> {
+                        GUI minersGUI = createMinersGUI(player, page - 1);
+                        minersGUI.openInventory(player);
+                    });
+        }
+        gui.addClickable(ItemHelper.createItem(XMaterial.ARROW.parseMaterial(), "Next Page"),
+                50, () -> {
+                    GUI minersGUI = createMinersGUI(player, page + 1);
+                    if (minersGUI != null) {
+                        minersGUI.openInventory(player);
                     }
                 });
-            }
-        } else {
-            //TODO: multi page inventory
-        }
         gui.fillBorderWith(ItemHelper.createItem(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem(), ChatColor.GOLD + ""));
         return gui;
+    }
+
+    private List<? extends Player> getMinersForPage(int page, List<? extends Player> miners) {
+        List<Player> minersOnCurrentPage = new ArrayList<>();
+        for (int i = (page - 1) * 28; i < page * 28; i++) {
+            if (i < miners.size()) {
+                minersOnCurrentPage.add(miners.get(i));
+            } else {
+                break;
+            }
+        }
+        return minersOnCurrentPage;
     }
 }

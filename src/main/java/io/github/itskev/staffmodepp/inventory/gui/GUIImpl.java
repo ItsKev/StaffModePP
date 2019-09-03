@@ -43,7 +43,11 @@ public class GUIImpl implements GUI {
             slots.add(i);
         }
 
-        slots.forEach(slot -> inventory.setItem(slot, item));
+        slots.forEach(slot -> {
+            if (inventory.getItem(slot) == null) {
+                inventory.setItem(slot, item);
+            }
+        });
     }
 
     @Override

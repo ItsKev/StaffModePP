@@ -59,7 +59,7 @@ public class HotBarEventHandler implements Listener {
                         dataHandler.getNoClipModule().toggleNoClip(player);
                         break;
                     case "TP To Miners":
-                        GUI minersGUI = guiapi.createMinersGUI(player);
+                        GUI minersGUI = guiapi.createMinersGUI(player, 1);
                         minersGUI.openInventory(player);
                         break;
                 }

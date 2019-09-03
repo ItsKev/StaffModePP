@@ -8,6 +8,6 @@ public interface GUIAPI {
 
     GUI createFollowGUI(Player player, Player playerToFollow);
 
-    GUI createMinersGUI(Player player);
+    GUI createMinersGUI(Player player, int page);
 
 }

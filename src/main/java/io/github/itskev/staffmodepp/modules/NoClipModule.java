@@ -50,6 +50,7 @@ public class NoClipModule {
     public void removeNoClipPlayer(Player player) {
         player.sendMessage(ConfigHelper.getStringFromConfig("NoClip-Leave"));
         noClipPlayers.remove(player.getUniqueId());
+        player.setGameMode(GameMode.CREATIVE);
         if (noClipPlayers.isEmpty() && noClipTask != null) {
             stopNoClipTask();
         }
