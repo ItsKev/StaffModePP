@@ -85,7 +85,7 @@ public class GUIAPIImpl implements GUIAPI {
                 .filter(p -> !p.equals(player))
                 .collect(Collectors.toList());
         boolean autoFollow = plugin.getConfig().getBoolean("Teleport-Menu.Auto-Follow");
-        List<? extends Player> minersForPage = getMinersForPage(page, miners);
+        List<? extends Player> minersForPage = getPlayersForPage(page, miners);
         if (page != 1 && minersForPage.isEmpty()) {
             return null;
         }
@@ -121,15 +121,119 @@ public class GUIAPIImpl implements GUIAPI {
         return gui;
     }
 
-    private List<? extends Player> getMinersForPage(int page, List<? extends Player> miners) {
-        List<Player> minersOnCurrentPage = new ArrayList<>();
+    @Override
+    public GUI createStaffGUI(Player player, int page) {
+        Inventory inventory = Bukkit.createInventory(player, 54, "Current staff members");
+        GUI gui = new GUIImpl(inventory, plugin);
+        int[] slots = {
+                10, 11, 12, 13, 14, 15, 16,
+                19, 20, 21, 22, 23, 24, 25,
+                28, 29, 30, 31, 32, 33, 34,
+                37, 38, 39, 40, 41, 42, 43
+        };
+        String staffpermission = plugin.getConfig().getString("Staffpermission");
+        List<? extends Player> players = plugin.getServer().getOnlinePlayers().stream()
+                .filter(p -> p.hasPermission(staffpermission))
+                .filter(p -> !p.equals(player))
+                .collect(Collectors.toList());
+        List<? extends Player> staffPlayers = getPlayersForPage(page, players);
+        if (page != 1 && staffPlayers.isEmpty()) {
+            return null;
+        }
+        for (int i = 0; i < staffPlayers.size(); i++) {
+            ItemStack skull = XMaterial.PLAYER_HEAD.parseItem();
+            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+            Player staffPlayer = staffPlayers.get(i);
+            skullMeta.setOwner(staffPlayer.getName());
+            skull.setItemMeta(skullMeta);
+            gui.addClickable(skull, slots[i], () -> {
+            });
+        }
+        if (page > 1) {
+            gui.addClickable(ItemHelper.createItem(XMaterial.ARROW.parseMaterial(), "Previous Page"),
+                    48, () -> {
+                        GUI staffGUI = createStaffGUI(player, page - 1);
+                        staffGUI.openInventory(player);
+                    });
+        }
+        gui.addClickable(ItemHelper.createItem(XMaterial.ARROW.parseMaterial(), "Next Page"),
+                50, () -> {
+                    GUI staffGUI = createStaffGUI(player, page + 1);
+                    if (staffGUI != null) {
+                        staffGUI.openInventory(player);
+                    }
+                });
+        gui.addClickable(ItemHelper.createItem(XMaterial.HOPPER.parseMaterial(),
+                ChatColor.GOLD + "Show players in staff mode"), 45, () -> {
+            GUI playersInStaffGUI = createPlayersInStaffGUI(player, 1);
+            playersInStaffGUI.openInventory(player);
+        });
+        gui.fillBorderWith(ItemHelper.createItem(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem(), ChatColor.GOLD + ""));
+        return gui;
+    }
+
+    private GUI createPlayersInStaffGUI(Player player, int page) {
+        Inventory inventory = Bukkit.createInventory(player, 54, "Current members in staff mode");
+        GUI gui = new GUIImpl(inventory, plugin);
+        int[] slots = {
+                10, 11, 12, 13, 14, 15, 16,
+                19, 20, 21, 22, 23, 24, 25,
+                28, 29, 30, 31, 32, 33, 34,
+                37, 38, 39, 40, 41, 42, 43
+        };
+        List<? extends Player> players = plugin.getServer().getOnlinePlayers().stream()
+                .filter(dataHandler::isInStaffMode)
+                .filter(p -> !p.equals(player))
+                .collect(Collectors.toList());
+        List<? extends Player> staffPlayers = getPlayersForPage(page, players);
+        if (page != 1 && staffPlayers.isEmpty()) {
+            return null;
+        }
+        for (int i = 0; i < staffPlayers.size(); i++) {
+            ItemStack skull = XMaterial.PLAYER_HEAD.parseItem();
+            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+            Player staffPlayer = staffPlayers.get(i);
+            String title = ConfigHelper.getStringFromConfig("StaffOnline.Title", staffPlayer.getDisplayName());
+            skullMeta.setDisplayName(title);
+            List<String> lore = plugin.getConfig().getStringList("StaffOnline.Lore");
+            skullMeta.setLore(lore);
+            skullMeta.setOwner(staffPlayer.getName());
+            skull.setItemMeta(skullMeta);
+            gui.addClickable(skull, slots[i], () -> {
+            });
+        }
+        if (page > 1) {
+            gui.addClickable(ItemHelper.createItem(XMaterial.ARROW.parseMaterial(), "Previous Page"),
+                    48, () -> {
+                        GUI staffGUI = createPlayersInStaffGUI(player, page - 1);
+                        staffGUI.openInventory(player);
+                    });
+        }
+        gui.addClickable(ItemHelper.createItem(XMaterial.ARROW.parseMaterial(), "Next Page"),
+                50, () -> {
+                    GUI staffGUI = createPlayersInStaffGUI(player, page + 1);
+                    if (staffGUI != null) {
+                        staffGUI.openInventory(player);
+                    }
+                });
+        gui.addClickable(ItemHelper.createItem(XMaterial.HOPPER.parseMaterial(),
+                ChatColor.GOLD + "Show current staff players"), 45, () -> {
+            GUI staffGUI = createStaffGUI(player, 1);
+            staffGUI.openInventory(player);
+        });
+        gui.fillBorderWith(ItemHelper.createItem(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem(), ChatColor.GOLD + ""));
+        return gui;
+    }
+
+    private List<? extends Player> getPlayersForPage(int page, List<? extends Player> miners) {
+        List<Player> playersOnCurrentPage = new ArrayList<>();
         for (int i = (page - 1) * 28; i < page * 28; i++) {
             if (i < miners.size()) {
-                minersOnCurrentPage.add(miners.get(i));
+                playersOnCurrentPage.add(miners.get(i));
             } else {
                 break;
             }
         }
-        return minersOnCurrentPage;
+        return playersOnCurrentPage;
     }
 }

@@ -21,3 +21,8 @@ commands:
   cps:
     description: Check clicks per second from player
     usage: /cps %Player% %Duration%
+  staffonline:
+    description: Get staff players online
+    usage: /staffonline
+  rtpm:
+    description: Get all miners

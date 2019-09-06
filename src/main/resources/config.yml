@@ -1,3 +1,4 @@
+Staffpermission: 'staff'
 StaffMode-Enter-Broadcast: '&7[Staff] &a%Player% has entered Staff Mode.'
 StaffMode-Leave-Broadcast: '&7[Staff] &c%Player% has exited Staff Mode.'
 StaffMode-Enter: '&7[Staff] &aYou have entered Staff Mode.'
@@ -41,3 +42,8 @@ CPS-Start: '&7[Staff] &aYou started a cps check for %Player%.'
 Teleport-Menu:
   Y-Number: 25
   Auto-Follow: true
+StaffOnline:
+  Title: '&6TestTitle'
+  Lore:
+    - 'Test'
+    - 'Lore'

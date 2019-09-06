@@ -10,4 +10,6 @@ public interface GUIAPI {
 
     GUI createMinersGUI(Player player, int page);
 
+    GUI createStaffGUI(Player player, int page);
+
 }
