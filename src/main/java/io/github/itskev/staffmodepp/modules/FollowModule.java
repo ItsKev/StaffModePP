@@ -86,6 +86,7 @@ public class FollowModule implements Listener {
         if (follow.isPresent()) {
             ItemStack skull = player.getInventory().getItem(follow.get().getKey());
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+            skullMeta.setDisplayName("§aFollowing " + playerToFollow.getDisplayName());
             skullMeta.setOwner(playerToFollow.getName());
             skull.setItemMeta(skullMeta);
         }
@@ -110,6 +111,7 @@ public class FollowModule implements Listener {
             ItemStack skull = player.getInventory().getItem(follow.get().getKey());
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
             skullMeta.setOwner(player.getName());
+            skullMeta.setDisplayName("§cNot following a player");
             skull.setItemMeta(skullMeta);
         }
     }

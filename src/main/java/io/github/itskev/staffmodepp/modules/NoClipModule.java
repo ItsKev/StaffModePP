@@ -1,5 +1,7 @@
 package io.github.itskev.staffmodepp.modules;
 
+import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -18,13 +20,15 @@ public class NoClipModule {
     private Plugin plugin;
     private List<UUID> noClipPlayers;
     private List<BlockFace> directions;
+    private StaffInventory staffInventory;
 
     private BukkitTask noClipTask;
 
-    public NoClipModule(Plugin plugin) {
+    public NoClipModule(Plugin plugin, DataHandler dataHandler) {
         noClipPlayers = new ArrayList<>();
         this.plugin = plugin;
         directions = Arrays.asList(BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST);
+        staffInventory = dataHandler.getStaffInventory();
     }
 
     public void toggleNoClip(Player player) {
@@ -45,11 +49,13 @@ public class NoClipModule {
         }
         player.sendMessage(ConfigHelper.getStringFromConfig("NoClip.Enter"));
         noClipPlayers.add(player.getUniqueId());
+        staffInventory.setOn(player, "No Clip");
     }
 
     public void removeNoClipPlayer(Player player) {
         player.sendMessage(ConfigHelper.getStringFromConfig("NoClip.Leave"));
         noClipPlayers.remove(player.getUniqueId());
+        staffInventory.setOff(player, "No Clip");
         player.setGameMode(GameMode.CREATIVE);
         if (noClipPlayers.isEmpty() && noClipTask != null) {
             stopNoClipTask();

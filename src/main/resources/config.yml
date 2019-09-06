@@ -24,17 +24,17 @@ HotBar:
   1:
     Module: 'Vanish Mode'
     Type: 373
-    Name: '&7 Toggle Vanish'
+    Name: '&7Vanish Mode &a&lON'
     Lore: []
   2:
     Module: 'No Clip'
     Type: 288
-    Name: '&7 Toggle NoClip'
+    Name: '&7NoClip Mode &a&lON'
     Lore: []
   3:
     Module: 'Player Options'
-    Type: 0
-    Name: '&7 Show Player Options'
+    Type: '397:3'
+    Name: '&7Not following a player'
     Lore: []
   4:
     Module: 'TP To Miners'

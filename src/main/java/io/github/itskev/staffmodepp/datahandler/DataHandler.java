@@ -12,6 +12,7 @@ import java.util.*;
 
 public class DataHandler {
 
+    private Plugin plugin;
     private List<UUID> staffPlayers;
     private Map<UUID, Location> staffPlayerSavedLocations;
     private StaffInventory staffInventory;
@@ -22,11 +23,12 @@ public class DataHandler {
     private CPSModule cpsModule;
 
     public DataHandler(Plugin plugin) {
+        this.plugin = plugin;
         staffPlayers = new ArrayList<>();
         staffPlayerSavedLocations = new HashMap<>();
         staffInventory = new StaffInventory(plugin, this);
-        vanishModule = new VanishModule();
-        noClipModule = new NoClipModule(plugin);
+        vanishModule = new VanishModule(this);
+        noClipModule = new NoClipModule(plugin, this);
         freezeModule = new FreezeModule(plugin);
         followModule = new FollowModule(plugin, this);
         cpsModule = new CPSModule(plugin, this);

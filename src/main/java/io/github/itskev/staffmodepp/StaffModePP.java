@@ -12,8 +12,6 @@ public class StaffModePP extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
-        saveConfig();
         new ConfigHelper(this);
         DataHandler dataHandler = new DataHandler(this);
 

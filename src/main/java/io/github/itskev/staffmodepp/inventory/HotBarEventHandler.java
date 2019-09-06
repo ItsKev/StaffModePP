@@ -49,7 +49,7 @@ public class HotBarEventHandler implements Listener {
         if (!dataHandler.isInStaffMode(player)) return;
         ItemStack item = event.getItem();
         if (item != null) {
-            Optional<Module> module = modules.stream().filter(m -> m.getItemStack().equals(item)).findFirst();
+            Optional<Module> module = modules.stream().filter(m -> m.getItemStack().getType().equals(item.getType())).findFirst();
             if (module.isPresent()) {
                 switch (module.get().getModuleName()) {
                     case "Vanish Mode":
@@ -66,6 +66,7 @@ public class HotBarEventHandler implements Listener {
                         GUI staffGUI = guiapi.createStaffGUI(player, 1);
                         staffGUI.openInventory(player);
                 }
+                event.setCancelled(true);
             }
             if (item.getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
                 SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
@@ -74,6 +75,7 @@ public class HotBarEventHandler implements Listener {
                     GUI followGUI = guiapi.createFollowGUI(player, playerToFollow);
                     followGUI.openInventory(player);
                 }
+                event.setCancelled(true);
             }
         }
     }

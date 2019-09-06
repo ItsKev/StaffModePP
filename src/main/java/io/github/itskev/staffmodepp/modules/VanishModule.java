@@ -1,20 +1,21 @@
 package io.github.itskev.staffmodepp.modules;
 
+import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class VanishModule {
 
     private List<UUID> vanishedPlayers;
+    private StaffInventory staffInventory;
 
-    public VanishModule() {
+    public VanishModule(DataHandler dataHandler) {
         vanishedPlayers = new ArrayList<>();
+        staffInventory = dataHandler.getStaffInventory();
     }
 
     public List<UUID> getVanishedPlayers() {
@@ -35,6 +36,7 @@ public class VanishModule {
 
     public void vanishPlayer(Player player) {
         player.sendMessage(ConfigHelper.getStringFromConfig("Vanish.Enter"));
+        staffInventory.setOn(player, "Vanish Mode");
         vanishedPlayers.add(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         String staffPermission = ConfigHelper.getStringFromConfig("Staffpermission");
@@ -47,6 +49,7 @@ public class VanishModule {
 
     public void unVanishPlayer(Player player) {
         player.sendMessage(ConfigHelper.getStringFromConfig("Vanish.Leave"));
+        staffInventory.setOff(player, "Vanish Mode");
         vanishedPlayers.remove(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         onlinePlayers.forEach(o -> o.showPlayer(player));
