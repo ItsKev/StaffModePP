@@ -80,7 +80,7 @@ public class FollowModule implements Listener {
     }
 
     private void followPlayer(Player player, Player playerToFollow) {
-        String stringFromConfig = ConfigHelper.getStringFromConfig("Follow-Start", playerToFollow.getDisplayName());
+        String stringFromConfig = ConfigHelper.getStringFromConfig("Follow.Start", playerToFollow.getDisplayName());
         player.sendMessage(stringFromConfig);
         Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Player Options")).findFirst();
         if (follow.isPresent()) {
@@ -103,7 +103,7 @@ public class FollowModule implements Listener {
             player.getVehicle().eject();
             name = playerToUnfollow.getDisplayName();
         }
-        String stringFromConfig = ConfigHelper.getStringFromConfig("Follow-Stop", name);
+        String stringFromConfig = ConfigHelper.getStringFromConfig("Follow.Stop", name);
         player.sendMessage(stringFromConfig);
         Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Player Options")).findFirst();
         if (follow.isPresent()) {

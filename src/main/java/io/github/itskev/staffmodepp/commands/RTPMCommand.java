@@ -1,6 +1,7 @@
 package io.github.itskev.staffmodepp.commands;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.inventory.gui.GUI;
 import io.github.itskev.staffmodepp.inventory.gui.GUIAPI;
 import io.github.itskev.staffmodepp.inventory.gui.GUIAPIImpl;
 import org.bukkit.command.Command;
@@ -25,7 +26,8 @@ public class RTPMCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (!dataHandler.isInStaffMode(player)) return true;
-            guiapi.createMinersGUI(player, 1);
+            GUI minersGUI = guiapi.createMinersGUI(player, 1);
+            minersGUI.openInventory(player);
         }
         return false;
     }

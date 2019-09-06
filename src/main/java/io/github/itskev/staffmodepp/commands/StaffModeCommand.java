@@ -27,7 +27,7 @@ public class StaffModeCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
             if (dataHandler.isInStaffMode(player)) {
-                String message = ConfigHelper.getStringFromConfig("StaffMode-Leave-Broadcast", player.getDisplayName());
+                String message = ConfigHelper.getStringFromConfig("StaffMode.Leave-Broadcast", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
                     if (!p.equals(player)) {
                         p.sendMessage(message);
@@ -36,7 +36,7 @@ public class StaffModeCommand implements CommandExecutor {
                 Location location = dataHandler.removePlayerFromStaffMode(player);
                 player.teleport(location);
             } else {
-                String message = ConfigHelper.getStringFromConfig("StaffMode-Enter-Broadcast", player.getDisplayName());
+                String message = ConfigHelper.getStringFromConfig("StaffMode.Enter-Broadcast", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
                     if (!p.equals(player)) {
                         p.sendMessage(message);

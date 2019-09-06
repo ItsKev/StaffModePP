@@ -43,12 +43,12 @@ public class NoClipModule {
         if (noClipTask == null) {
             startNoClipTask();
         }
-        player.sendMessage(ConfigHelper.getStringFromConfig("NoClip-Enter"));
+        player.sendMessage(ConfigHelper.getStringFromConfig("NoClip.Enter"));
         noClipPlayers.add(player.getUniqueId());
     }
 
     public void removeNoClipPlayer(Player player) {
-        player.sendMessage(ConfigHelper.getStringFromConfig("NoClip-Leave"));
+        player.sendMessage(ConfigHelper.getStringFromConfig("NoClip.Leave"));
         noClipPlayers.remove(player.getUniqueId());
         player.setGameMode(GameMode.CREATIVE);
         if (noClipPlayers.isEmpty() && noClipTask != null) {

@@ -123,7 +123,7 @@ public class GUIAPIImpl implements GUIAPI {
 
     @Override
     public GUI createStaffGUI(Player player, int page) {
-        Inventory inventory = Bukkit.createInventory(player, 54, "Current staff members");
+        Inventory inventory = Bukkit.createInventory(player, 54, "Current Staff Members Page " + page);
         GUI gui = new GUIImpl(inventory, plugin);
         int[] slots = {
                 10, 11, 12, 13, 14, 15, 16,

@@ -32,6 +32,10 @@ public class DataHandler {
         cpsModule = new CPSModule(plugin, this);
     }
 
+    public List<UUID> getStaffPlayers() {
+        return staffPlayers;
+    }
+
     public StaffInventory getStaffInventory() {
         return staffInventory;
     }
@@ -62,7 +66,7 @@ public class DataHandler {
 
     public void addPlayerIntoStaffMode(Player player) {
         player.setGameMode(GameMode.CREATIVE);
-        player.sendMessage(ConfigHelper.getStringFromConfig("StaffMode-Enter"));
+        player.sendMessage(ConfigHelper.getStringFromConfig("StaffMode.Enter"));
         staffPlayers.add(player.getUniqueId());
         staffPlayerSavedLocations.put(player.getUniqueId(), player.getLocation());
         staffInventory.saveInventory(player);
@@ -70,12 +74,12 @@ public class DataHandler {
     }
 
     public Location removePlayerFromStaffMode(Player player) {
-        player.setGameMode(GameMode.SURVIVAL);
-        player.sendMessage(ConfigHelper.getStringFromConfig("StaffMode-Leave"));
+        player.sendMessage(ConfigHelper.getStringFromConfig("StaffMode.Leave"));
         staffPlayers.remove(player.getUniqueId());
         staffInventory.restoreInventory(player);
         vanishModule.unVanishPlayer(player);
         noClipModule.removeNoClipPlayer(player);
+        player.setGameMode(GameMode.SURVIVAL);
         return staffPlayerSavedLocations.remove(player.getUniqueId());
     }
 }

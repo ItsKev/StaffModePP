@@ -62,6 +62,9 @@ public class HotBarEventHandler implements Listener {
                         GUI minersGUI = guiapi.createMinersGUI(player, 1);
                         minersGUI.openInventory(player);
                         break;
+                    case "Staff Online":
+                        GUI staffGUI = guiapi.createStaffGUI(player, 1);
+                        staffGUI.openInventory(player);
                 }
             }
             if (item.getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {

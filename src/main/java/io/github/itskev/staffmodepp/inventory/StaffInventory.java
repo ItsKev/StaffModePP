@@ -1,9 +1,10 @@
 package io.github.itskev.staffmodepp.inventory;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import io.github.itskev.staffmodepp.util.ItemHelper;
 import io.github.itskev.staffmodepp.util.XMaterial;
-import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -21,19 +22,21 @@ public class StaffInventory {
         savedInventories = new HashMap<>();
         staffInventory = new HashMap<>();
 
-        //TODO: get from config
-        staffInventory.put(0, new Module("Vanish Mode", ItemHelper.createItem(
-                new ItemStack(XMaterial.POTION.parseItem()),
-                ChatColor.GOLD + "Toggle Vanish")));
-        staffInventory.put(1, new Module("No Clip", ItemHelper.createItem(
-                new ItemStack(XMaterial.FEATHER.parseItem()),
-                ChatColor.GOLD + "Toggle NoClip")));
-        staffInventory.put(2, new Module("Player Options", ItemHelper.createItem(
-                XMaterial.PLAYER_HEAD.parseItem(),
-                ChatColor.GOLD + "Follow Player")));
-        staffInventory.put(3, new Module("TP To Miners", ItemHelper.createItem(
-                XMaterial.STONE.parseItem(),
-                ChatColor.GOLD + "Open Miners GUI")));
+        FileConfiguration config = plugin.getConfig();
+        List<String> playerOptionsGUI = new ArrayList<>(config.getConfigurationSection("HotBar").getKeys(false));
+        for (String entry : playerOptionsGUI) {
+            String[] split = config.getString("HotBar." + entry + ".Type").split(":");
+            ItemStack itemStack;
+            if (split.length > 1) {
+                itemStack = new ItemStack(Integer.parseInt(split[0]), 1, Short.parseShort(split[1]));
+            } else {
+                itemStack = new ItemStack(Integer.parseInt(split[0]));
+            }
+            ItemStack item = ItemHelper.createItem(itemStack, ConfigHelper.getStringFromConfig("HotBar." + entry + ".Name"),
+                    config.getStringList("HotBar." + entry + ".Lore").toArray(new String[0]));
+            String moduleName = ConfigHelper.getStringFromConfig("HotBar." + entry + ".Module");
+            staffInventory.put(Integer.parseInt(entry), new Module(moduleName, item));
+        }
         HotBarEventHandler.getInstance(plugin, dataHandler).setModules(staffInventory.values());
     }
 
@@ -49,7 +52,7 @@ public class StaffInventory {
             Module module = staffInventory.get(i);
             if (module != null) {
                 if (module.getModuleName().equals("Player Options")) {
-                    ItemStack skull = module.getItemStack().clone();
+                    ItemStack skull = XMaterial.PLAYER_HEAD.parseItem();
                     SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
                     skullMeta.setOwner(player.getName());
                     skull.setItemMeta(skullMeta);

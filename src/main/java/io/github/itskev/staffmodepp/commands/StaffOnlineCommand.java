@@ -1,6 +1,7 @@
 package io.github.itskev.staffmodepp.commands;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.inventory.gui.GUI;
 import io.github.itskev.staffmodepp.inventory.gui.GUIAPI;
 import io.github.itskev.staffmodepp.inventory.gui.GUIAPIImpl;
 import org.bukkit.command.Command;
@@ -26,8 +27,9 @@ public class StaffOnlineCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             if (!dataHandler.isInStaffMode(player)) return true;
-            guiapi.createStaffGUI(player, 1);
+            GUI staffGUI = guiapi.createStaffGUI(player, 1);
+            staffGUI.openInventory(player);
         }
-        return false;
+        return true;
     }
 }

@@ -31,6 +31,10 @@ public class FreezeModule implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    public int amountFrozen() {
+        return frozenPlayers.size();
+    }
+
     public boolean isFrozen(Player player) {
         return frozenPlayers.contains(player.getUniqueId());
     }
