@@ -37,7 +37,12 @@ public class VanishModule {
         player.sendMessage(ConfigHelper.getStringFromConfig("Vanish.Enter"));
         vanishedPlayers.add(player.getUniqueId());
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        onlinePlayers.forEach(o -> o.hidePlayer(player));
+        String staffPermission = ConfigHelper.getStringFromConfig("Staffpermission");
+        onlinePlayers.forEach(o -> {
+            if (!o.hasPermission(staffPermission)) {
+                o.hidePlayer(player);
+            }
+        });
     }
 
     public void unVanishPlayer(Player player) {

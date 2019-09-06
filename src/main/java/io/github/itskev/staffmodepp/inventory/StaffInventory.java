@@ -33,7 +33,7 @@ public class StaffInventory {
                 itemStack = new ItemStack(Integer.parseInt(split[0]));
             }
             ItemStack item = ItemHelper.createItem(itemStack, ConfigHelper.getStringFromConfig("HotBar." + entry + ".Name"),
-                    config.getStringList("HotBar." + entry + ".Lore").toArray(new String[0]));
+                    ConfigHelper.getStringListFromConfig("HotBar." + entry + ".Lore", null).toArray(new String[0]));
             String moduleName = ConfigHelper.getStringFromConfig("HotBar." + entry + ".Module");
             staffInventory.put(Integer.parseInt(entry), new Module(moduleName, item));
         }

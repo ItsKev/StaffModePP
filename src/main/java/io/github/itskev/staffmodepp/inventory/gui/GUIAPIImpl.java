@@ -40,7 +40,7 @@ public class GUIAPIImpl implements GUIAPI {
                 itemStack = new ItemStack(Integer.parseInt(split[0]));
             }
             ItemStack item = ItemHelper.createItem(itemStack, ConfigHelper.getStringFromConfig("PlayerOptionsGUI." + entry + ".Name"),
-                    config.getStringList("PlayerOptionsGUI." + entry + ".Lore").toArray(new String[0]));
+                    ConfigHelper.getStringListFromConfig("PlayerOptionsGUI." + entry + ".Lore", null).toArray(new String[0]));
             String command = ConfigHelper.getStringFromConfig("PlayerOptionsGUI." + entry + ".Command");
             followGUIItems.add(new GUIItem(item, command));
         }
@@ -144,6 +144,10 @@ public class GUIAPIImpl implements GUIAPI {
             ItemStack skull = XMaterial.PLAYER_HEAD.parseItem();
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
             Player staffPlayer = staffPlayers.get(i);
+            String title = ConfigHelper.getStringFromConfig("StaffOnline.Title", staffPlayer.getDisplayName());
+            skullMeta.setDisplayName(title);
+            List<String> lore = ConfigHelper.getStringListFromConfig("StaffOnline.Lore", staffPlayer);
+            skullMeta.setLore(lore);
             skullMeta.setOwner(staffPlayer.getName());
             skull.setItemMeta(skullMeta);
             gui.addClickable(skull, slots[i], () -> {
@@ -195,7 +199,7 @@ public class GUIAPIImpl implements GUIAPI {
             Player staffPlayer = staffPlayers.get(i);
             String title = ConfigHelper.getStringFromConfig("StaffOnline.Title", staffPlayer.getDisplayName());
             skullMeta.setDisplayName(title);
-            List<String> lore = plugin.getConfig().getStringList("StaffOnline.Lore");
+            List<String> lore = ConfigHelper.getStringListFromConfig("StaffOnline.Lore", staffPlayer);
             skullMeta.setLore(lore);
             skullMeta.setOwner(staffPlayer.getName());
             skull.setItemMeta(skullMeta);

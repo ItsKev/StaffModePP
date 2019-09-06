@@ -32,14 +32,21 @@ public class PlayerEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Server server = plugin.getServer();
         Player player = event.getPlayer();
-        dataHandler.getVanishModule().getVanishedPlayers().forEach(uuid -> {
-            Player serverPlayer = server.getPlayer(uuid);
-            if (serverPlayer != null) {
-                player.hidePlayer(serverPlayer);
-            }
-        });
+        String staffPermission = ConfigHelper.getStringFromConfig("Staffpermission");
+        if (!player.hasPermission(staffPermission)) {
+            dataHandler.getVanishModule().getVanishedPlayers().forEach(uuid -> {
+                Player serverPlayer = server.getPlayer(uuid);
+                if (serverPlayer != null) {
+                    player.hidePlayer(serverPlayer);
+                }
+            });
+        }
         if (dataHandler.getVanishModule().isVanished(player)) {
-            plugin.getServer().getOnlinePlayers().forEach(p -> p.hidePlayer(player));
+            plugin.getServer().getOnlinePlayers().forEach(o -> {
+                if (!o.hasPermission(staffPermission)) {
+                    o.hidePlayer(player);
+                }
+            });
         }
         if (dataHandler.getFreezeModule().isFrozen(player)) {
             dataHandler.getFreezeModule().refreezePlayer(player);
