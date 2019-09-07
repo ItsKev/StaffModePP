@@ -42,14 +42,14 @@ HotBar:
   4:
     Module: 'TP To Miners'
     Type: 1
-    NameOn: '&7Open Miners GUI'
-    NameOff: '&7Miners GUI Opened'
+    NameOn: '&7Miners GUI Opened'
+    NameOff: '&7Open Miners GUI'
     Lore: []
   5:
     Module: 'Staff Online'
     Type: 264
-    NameOn: '&7Open Staff Online GUI'
-    NameOff: '&7Staff GUI opened'
+    NameOn: '&7Staff GUI opened'
+    NameOff: '&7Open Staff Online GUI'
     Lore: []
 PlayerOptionsGUI:
   0:
