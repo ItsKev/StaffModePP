@@ -6,10 +6,14 @@ public class Module {
 
     private String moduleName;
     private ItemStack itemStack;
+    private String nameOn;
+    private String nameOff;
 
-    public Module(String moduleName, ItemStack itemStack) {
+    public Module(String moduleName, ItemStack itemStack, String nameOn, String nameOff) {
         this.moduleName = moduleName;
         this.itemStack = itemStack;
+        this.nameOn = nameOn;
+        this.nameOff = nameOff;
     }
 
     public String getModuleName() {
@@ -17,6 +21,14 @@ public class Module {
     }
 
     public ItemStack getItemStack() {
-        return itemStack;
+        return itemStack.clone();
+    }
+
+    public String getNameOn() {
+        return nameOn;
+    }
+
+    public String getNameOff() {
+        return nameOff;
     }
 }

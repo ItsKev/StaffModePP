@@ -33,10 +33,12 @@ public class StaffInventory {
             } else {
                 itemStack = new ItemStack(Integer.parseInt(split[0]));
             }
-            ItemStack item = ItemHelper.createItem(itemStack, ConfigHelper.getStringFromConfig("HotBar." + entry + ".Name"),
+            String nameOff = ConfigHelper.getStringFromConfig("HotBar." + entry + ".NameOff");
+            String nameOn = ConfigHelper.getStringFromConfig("HotBar." + entry + ".NameOn");
+            ItemStack item = ItemHelper.createItem(itemStack, nameOff,
                     ConfigHelper.getStringListFromConfig("HotBar." + entry + ".Lore", null).toArray(new String[0]));
             String moduleName = ConfigHelper.getStringFromConfig("HotBar." + entry + ".Module");
-            staffInventory.put(Integer.parseInt(entry), new Module(moduleName, item));
+            staffInventory.put(Integer.parseInt(entry), new Module(moduleName, item, nameOn, nameOff));
         }
         HotBarEventHandler.getInstance(plugin, dataHandler).setModules(staffInventory.values());
     }
@@ -62,14 +64,6 @@ public class StaffInventory {
                     skullMeta.setOwner(player.getName());
                     skull.setItemMeta(skullMeta);
                     inventory.setItem(i, skull);
-                } else if (module.getModuleName().equals("No Clip")) {
-                    ItemStack itemStack = module.getItemStack().clone();
-                    ItemMeta itemMeta = module.getItemStack().clone().getItemMeta();
-                    if (itemMeta.hasDisplayName()) {
-                        itemMeta.setDisplayName(itemMeta.getDisplayName().replace("ON", "OFF"));
-                    }
-                    itemStack.setItemMeta(itemMeta);
-                    inventory.setItem(i, itemStack);
                 } else {
                     inventory.setItem(i, module.getItemStack().clone());
                 }
@@ -82,30 +76,42 @@ public class StaffInventory {
     }
 
     public void setOn(Player player, String moduleName) {
-        staffInventory.entrySet().stream()
-                .filter(integerModuleEntry -> integerModuleEntry.getValue().getModuleName().equals(moduleName))
+        staffInventory.values().stream()
+                .filter(module -> module.getModuleName().equals(moduleName))
                 .findFirst()
-                .ifPresent(integerModuleEntry -> {
-                    ItemStack item = player.getInventory().getItem(integerModuleEntry.getKey());
-                    ItemMeta itemMeta = item.getItemMeta();
-                    if (itemMeta.hasDisplayName()) {
-                        itemMeta.setDisplayName(itemMeta.getDisplayName().replace("OFF", "ON"));
-                    }
-                    item.setItemMeta(itemMeta);
+                .ifPresent(module -> {
+                    ItemStack itemStack = module.getItemStack();
+                    ItemMeta meta = itemStack.getItemMeta();
+                    meta.setDisplayName(module.getNameOff());
+                    itemStack.setItemMeta(meta);
+                    Arrays.stream(player.getInventory().getContents())
+                            .filter(itemStack::equals)
+                            .findFirst()
+                            .ifPresent(itemStack1 -> {
+                                ItemMeta itemMeta = itemStack1.getItemMeta();
+                                itemMeta.setDisplayName(module.getNameOn());
+                                itemStack1.setItemMeta(itemMeta);
+                            });
                 });
     }
 
     public void setOff(Player player, String moduleName) {
-        staffInventory.entrySet().stream()
-                .filter(integerModuleEntry -> integerModuleEntry.getValue().getModuleName().equals(moduleName))
+        staffInventory.values().stream()
+                .filter(module -> module.getModuleName().equals(moduleName))
                 .findFirst()
-                .ifPresent(integerModuleEntry -> {
-                    ItemStack item = player.getInventory().getItem(integerModuleEntry.getKey());
-                    ItemMeta itemMeta = item.getItemMeta();
-                    if (itemMeta.hasDisplayName()) {
-                        itemMeta.setDisplayName(itemMeta.getDisplayName().replace("ON", "OFF"));
-                    }
-                    item.setItemMeta(itemMeta);
+                .ifPresent(module -> {
+                    ItemStack itemStack = module.getItemStack();
+                    ItemMeta meta = itemStack.getItemMeta();
+                    meta.setDisplayName(module.getNameOn());
+                    itemStack.setItemMeta(meta);
+                    Arrays.stream(player.getInventory().getContents())
+                            .filter(itemStack::equals)
+                            .findFirst()
+                            .ifPresent(itemStack1 -> {
+                                ItemMeta itemMeta = itemStack1.getItemMeta();
+                                itemMeta.setDisplayName(module.getNameOff());
+                                itemStack1.setItemMeta(itemMeta);
+                            });
                 });
     }
 

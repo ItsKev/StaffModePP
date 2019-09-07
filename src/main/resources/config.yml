@@ -24,27 +24,32 @@ HotBar:
   1:
     Module: 'Vanish Mode'
     Type: 373
-    Name: '&7Vanish Mode &a&lON'
+    NameOn: '&7Vanish Mode &a&lON'
+    NameOff: '&7Vanish Mode &c&lOFF'
     Lore: []
   2:
     Module: 'No Clip'
     Type: 288
-    Name: '&7NoClip Mode &a&lON'
+    NameOn: '&7NoClip Mode &a&lON'
+    NameOff: '&7NoClip Mode &c&lOFF'
     Lore: []
   3:
     Module: 'Player Options'
     Type: '397:3'
-    Name: '&7Not following a player'
+    NameOn: '&aFollowing %Player%'
+    NameOff: '&cNot following a player'
     Lore: []
   4:
     Module: 'TP To Miners'
     Type: 1
-    Name: '&7 Open Miners GUI'
+    NameOn: '&7Open Miners GUI'
+    NameOff: '&7Miners GUI Opened'
     Lore: []
   5:
     Module: 'Staff Online'
     Type: 264
-    Name: '&7 Open Staff Online GUI'
+    NameOn: '&7Open Staff Online GUI'
+    NameOff: '&7Staff GUI opened'
     Lore: []
 PlayerOptionsGUI:
   0:
