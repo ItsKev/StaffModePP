@@ -8,6 +8,8 @@ StaffMode:
 Vanish:
   Enter: '&7[Staff] &aYou have entered Vanish Mode.'
   Leave: '&7[Staff] &cYou have exited Vanish Mode.'
+  Permission-To-View: 'vanish'
+  Prefix-In-Vanish: '&7[V] '
 NoClip:
   Enter: '&7[Staff] &aYou have entered NoClip Mode.'
   Leave: '&7[Staff] &cYou have exited NoClip Mode.'

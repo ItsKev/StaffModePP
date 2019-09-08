@@ -27,7 +27,7 @@ public class DataHandler {
         staffPlayers = new ArrayList<>();
         staffPlayerSavedLocations = new HashMap<>();
         staffInventory = new StaffInventory(plugin, this);
-        vanishModule = new VanishModule(this);
+        vanishModule = new VanishModule(plugin, this);
         noClipModule = new NoClipModule(plugin, this);
         freezeModule = new FreezeModule(plugin);
         followModule = new FollowModule(plugin, this);
