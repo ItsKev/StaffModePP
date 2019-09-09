@@ -18,7 +18,7 @@ Freeze:
   Unfreeze-Message: '&7[Staff] &c%Player% is not frozen anymore.'
   Hologram: '%Player% is now frozen!'
   CommandExecutedOnDisconnect: 'list'
-  MessageSentToPlayer: 'You are frozen'
+  MessageSentToPlayer: '{"text":"You are frozen, click me to get more info!","color":"gold","clickEvent":{"action":"open_url","value":"https://www.spigotmc.org"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"FROZEN!","color":"black"}]}}}'
 Follow:
   Start: '&7[Staff] &aYou started following %Player%.'
   Stop: '&7[Staff] &cYou stopped following %Player%.'

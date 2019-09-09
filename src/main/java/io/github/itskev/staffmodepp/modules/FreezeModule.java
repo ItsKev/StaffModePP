@@ -1,5 +1,9 @@
 package io.github.itskev.staffmodepp.modules;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -14,6 +18,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class FreezeModule implements Listener {
@@ -45,7 +50,14 @@ public class FreezeModule implements Listener {
             frozenPlayers.add(playerToBeFrozen.getUniqueId());
             createHologram(playerToBeFrozen, ConfigHelper.getStringFromConfig("Freeze.Hologram", playerToBeFrozen.getDisplayName()));
             messageTasks.put(playerToBeFrozen.getUniqueId(), plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-                playerToBeFrozen.sendMessage(ConfigHelper.getStringFromConfig("Freeze.MessageSentToPlayer"));
+                String jsonString = ConfigHelper.getStringFromConfig("Freeze.MessageSentToPlayer");
+                PacketContainer packetContainer = new PacketContainer(PacketType.Play.Server.CHAT);
+                packetContainer.getChatComponents().write(0, WrappedChatComponent.fromJson(jsonString));
+                try {
+                    ProtocolLibrary.getProtocolManager().sendServerPacket(playerToBeFrozen, packetContainer);
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }, 0, 5 * 20));
         }
     }
