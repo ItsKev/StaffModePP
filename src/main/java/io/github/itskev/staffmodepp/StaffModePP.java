@@ -19,16 +19,26 @@ public class StaffModePP extends JavaPlugin {
             new PlaceHolders(this, dataHandler).register();
         }
 
-        //TODO: add permision
+        String staffpermission = getConfig().getString("Staffpermission");
+
         getCommand("staffmode").setExecutor(new StaffModeCommand(this, dataHandler));
+        getCommand("staffmode").setPermission(staffpermission);
         getCommand("vanish").setExecutor(new VanishCommand(this, dataHandler));
+        getCommand("vanish").setPermission(staffpermission);
         getCommand("noclip").setExecutor(new NoClipCommand(this, dataHandler));
+        getCommand("noclip").setPermission(staffpermission);
         getCommand("freeze").setExecutor(new FreezeCommand(this, dataHandler));
+        getCommand("freeze").setPermission(staffpermission);
         getCommand("unfreeze").setExecutor(new FreezeCommand(this, dataHandler));
+        getCommand("unfreeze").setPermission(staffpermission);
         getCommand("follow").setExecutor(new FollowCommand(this, dataHandler));
+        getCommand("follow").setPermission(staffpermission);
         getCommand("cps").setExecutor(new CPSCommand(this, dataHandler));
+        getCommand("cps").setPermission(staffpermission);
         getCommand("staffonline").setExecutor(new StaffOnlineCommand(this, dataHandler));
+        getCommand("staffonline").setPermission(staffpermission);
         getCommand("rtpm").setExecutor(new RTPMCommand(this, dataHandler));
+        getCommand("rtpm").setPermission(staffpermission);
         getServer().getPluginManager().registerEvents(new PlayerEvents(this, dataHandler), this);
     }
 }
