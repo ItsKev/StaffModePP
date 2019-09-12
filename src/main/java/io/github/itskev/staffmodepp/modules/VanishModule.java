@@ -3,6 +3,7 @@ package io.github.itskev.staffmodepp.modules;
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.protocollib.NicknameHandler;
+import io.github.itskev.staffmodepp.util.ActionBar;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,11 +17,13 @@ import java.util.UUID;
 public class VanishModule {
 
     private Plugin plugin;
+    private DataHandler dataHandler;
     private List<UUID> vanishedPlayers;
     private StaffInventory staffInventory;
 
     public VanishModule(Plugin plugin, DataHandler dataHandler) {
         this.plugin = plugin;
+        this.dataHandler = dataHandler;
         vanishedPlayers = new ArrayList<>();
         staffInventory = dataHandler.getStaffInventory();
     }
@@ -57,6 +60,7 @@ public class VanishModule {
                 Bukkit.getScheduler().runTaskLater(plugin, () -> o.showPlayer(player), 1);
             }
         });
+        ActionBar.setActionBar(player, dataHandler);
     }
 
     public void unVanishPlayer(Player player) {
@@ -69,5 +73,6 @@ public class VanishModule {
             o.hidePlayer(player);
             Bukkit.getScheduler().runTaskLater(plugin, () -> o.showPlayer(player), 1);
         });
+        ActionBar.setActionBar(player, dataHandler);
     }
 }

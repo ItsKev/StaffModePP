@@ -2,6 +2,7 @@ package io.github.itskev.staffmodepp.datahandler;
 
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.modules.*;
+import io.github.itskev.staffmodepp.util.ActionBar;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -32,6 +33,10 @@ public class DataHandler {
         freezeModule = new FreezeModule(plugin);
         followModule = new FollowModule(plugin, this);
         cpsModule = new CPSModule(plugin, this);
+    }
+
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     public List<UUID> getStaffPlayers() {
@@ -73,6 +78,7 @@ public class DataHandler {
         staffPlayerSavedLocations.put(player.getUniqueId(), player.getLocation());
         staffInventory.saveInventory(player);
         vanishModule.vanishPlayer(player);
+        ActionBar.setActionBar(player, this);
     }
 
     public Location removePlayerFromStaffMode(Player player) {
@@ -82,6 +88,7 @@ public class DataHandler {
         vanishModule.unVanishPlayer(player);
         noClipModule.removeNoClipPlayer(player);
         player.setGameMode(GameMode.SURVIVAL);
+        ActionBar.setActionBar(player, this);
         return staffPlayerSavedLocations.remove(player.getUniqueId());
     }
 }

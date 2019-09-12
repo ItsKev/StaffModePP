@@ -3,6 +3,7 @@ package io.github.itskev.staffmodepp.modules;
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.inventory.Module;
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
+import io.github.itskev.staffmodepp.util.ActionBar;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -75,8 +76,12 @@ public class FollowModule implements Listener {
         players.forEach(p -> unfollowPlayer(p, null));
     }
 
-    private boolean isFollowingSomeone(Player player) {
+    public boolean isFollowingSomeone(Player player) {
         return followingStaff.containsKey(player.getUniqueId());
+    }
+
+    public UUID getFollowedPlayer(Player player) {
+        return followingStaff.get(player.getUniqueId());
     }
 
     private void followPlayer(Player player, Player playerToFollow) {
@@ -92,6 +97,7 @@ public class FollowModule implements Listener {
         }
         followingStaff.put(player.getUniqueId(), playerToFollow.getUniqueId());
         playerToFollow.setPassenger(player);
+        ActionBar.setActionBar(player, dataHandler);
     }
 
     private void unfollowPlayer(Player player, Player playerToUnfollow) {
@@ -114,5 +120,6 @@ public class FollowModule implements Listener {
             skullMeta.setDisplayName(follow.get().getValue().getNameOff());
             skull.setItemMeta(skullMeta);
         }
+        ActionBar.setActionBar(player, dataHandler);
     }
 }

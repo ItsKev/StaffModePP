@@ -87,3 +87,12 @@ StaffOnline:
   Lore:
     - '%staffmodeplusplus_isVanished%'
     - '%staffmodeplusplus_amountUnderground%'
+StaffModeActionBar:
+  Text: '&7You are currently in staffmode!'
+  Priority: 3
+VanishActionBar:
+  Text: '&7You are currently in Vanish mode!'
+  Priority: 1
+FollowingActionBar:
+  Text: '&7You are currently following %Player%'
+  Priority: 2
