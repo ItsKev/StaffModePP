@@ -22,7 +22,6 @@ public class FreezeCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if (!dataHandler.isInStaffMode(player)) return true;
             String commandName = command.getName();
             if (args.length == 0) return false;
             Player playerToBeFrozen = plugin.getServer().getPlayer(args[0]);

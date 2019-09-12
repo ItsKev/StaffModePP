@@ -16,7 +16,7 @@ import java.util.*;
 
 public class StaffInventory {
 
-    private Map<UUID, List<ItemStack>> savedInventories;
+    private Map<UUID, InventoryContent> savedInventories;
     private Map<Integer, Module> staffInventory;
 
     public StaffInventory(Plugin plugin, DataHandler dataHandler) {
@@ -48,10 +48,11 @@ public class StaffInventory {
     }
 
     public void saveInventory(Player player) {
-        List<ItemStack> itemsInHotbar = new ArrayList<>();
         PlayerInventory inventory = player.getInventory();
+        savedInventories.put(player.getUniqueId(), new InventoryContent(inventory.getContents(), inventory.getArmorContents()));
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
         for (int i = 0; i < 9; i++) {
-            itemsInHotbar.add(inventory.getItem(i));
             Module module = staffInventory.get(i);
             if (module != null) {
                 if (module.getModuleName().equals("Player Options")) {
@@ -71,7 +72,6 @@ public class StaffInventory {
                 inventory.setItem(i, null);
             }
         }
-        savedInventories.put(player.getUniqueId(), itemsInHotbar);
         player.updateInventory();
     }
 
@@ -116,10 +116,11 @@ public class StaffInventory {
     }
 
     public void restoreInventory(Player player) {
-        List<ItemStack> hotbar = savedInventories.remove(player.getUniqueId());
+        InventoryContent inventoryContent = savedInventories.remove(player.getUniqueId());
         PlayerInventory inventory = player.getInventory();
-        for (int i = 0; i < 9; i++) {
-            inventory.setItem(i, hotbar.get(i));
-        }
+        inventory.clear();
+        inventory.setContents(inventoryContent.getInventory());
+        inventory.setArmorContents(inventoryContent.getArmor());
+        player.updateInventory();
     }
 }

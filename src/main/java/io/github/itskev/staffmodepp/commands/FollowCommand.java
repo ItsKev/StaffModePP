@@ -22,7 +22,14 @@ public class FollowCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if (!dataHandler.isInStaffMode(player)) return true;
+            String permission = ConfigHelper.getStringFromConfig("UseCommandsWithoutStaffMode.Permission");
+            if (!player.hasPermission(permission)) {
+                if (!dataHandler.isInStaffMode(player)) {
+                    String stringFromConfig = ConfigHelper.getStringFromConfig("UseCommandsWithoutStaffMode.MessageWithNoPermission");
+                    player.sendMessage(stringFromConfig);
+                    return true;
+                }
+            }
             if (args.length == 0) return false;
             Player playerToFollow = plugin.getServer().getPlayer(args[0]);
             if (playerToFollow != null && !player.equals(playerToFollow)) {

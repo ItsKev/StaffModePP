@@ -21,9 +21,7 @@ public class VanishCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if (dataHandler.isInStaffMode(player)) {
-                dataHandler.getVanishModule().toggleVanish(player);
-            }
+            dataHandler.getVanishModule().toggleVanish(player);
         }
         return true;
     }

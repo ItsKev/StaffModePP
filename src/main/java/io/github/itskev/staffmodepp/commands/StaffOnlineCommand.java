@@ -4,6 +4,7 @@ import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.inventory.gui.GUI;
 import io.github.itskev.staffmodepp.inventory.gui.GUIAPI;
 import io.github.itskev.staffmodepp.inventory.gui.GUIAPIImpl;
+import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +27,14 @@ public class StaffOnlineCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if (!dataHandler.isInStaffMode(player)) return true;
+            String permission = ConfigHelper.getStringFromConfig("UseCommandsWithoutStaffMode.Permission");
+            if (!player.hasPermission(permission)) {
+                if (!dataHandler.isInStaffMode(player)) {
+                    String stringFromConfig = ConfigHelper.getStringFromConfig("UseCommandsWithoutStaffMode.MessageWithNoPermission");
+                    player.sendMessage(stringFromConfig);
+                    return true;
+                }
+            }
             GUI staffGUI = guiapi.createStaffGUI(player, 1);
             staffGUI.openInventory(player);
         }

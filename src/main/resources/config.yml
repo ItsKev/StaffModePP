@@ -1,4 +1,7 @@
 Staffpermission: 'staff'
+UseCommandsWithoutStaffMode:
+  Permission: 'commandsWithoutStaff'
+  MessageWithNoPermission: '&cCan only be used in Staffmode'
 PlayerNotFound: '&7[Staff] &c%Player% not found!'
 StaffMode:
   Enter-Broadcast: '&7[Staff] &a%Player% has entered Staff Mode.'
