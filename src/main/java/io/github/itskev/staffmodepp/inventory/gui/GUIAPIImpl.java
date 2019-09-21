@@ -94,6 +94,7 @@ public class GUIAPIImpl implements GUIAPI {
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
             Player miner = minersForPage.get(i);
             skullMeta.setOwner(miner.getName());
+            skullMeta.setDisplayName(miner.getName());
             skull.setItemMeta(skullMeta);
             gui.addClickable(skull, slots[i], () -> {
                 player.teleport(miner);

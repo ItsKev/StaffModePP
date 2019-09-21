@@ -5,12 +5,15 @@ import io.github.itskev.staffmodepp.inventory.Module;
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.util.ActionBar;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
+import io.github.itskev.staffmodepp.util.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
@@ -21,11 +24,14 @@ import java.util.*;
 public class FollowModule implements Listener {
 
     private Map<UUID, UUID> followingStaff;
+    private Plugin plugin;
     private DataHandler dataHandler;
     private StaffInventory staffInventory;
+    private Set<UUID> playersTeleporting = new HashSet<>();
 
     public FollowModule(Plugin plugin, DataHandler dataHandler) {
         followingStaff = new HashMap<>();
+        this.plugin = plugin;
         this.dataHandler = dataHandler;
         this.staffInventory = dataHandler.getStaffInventory();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -41,10 +47,12 @@ public class FollowModule implements Listener {
 
     @EventHandler
     public void onPlayerInteract(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
+        if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) {
+            return;
+        }
         Player player = (Player) event.getDamager();
         Player playerToFollow = (Player) event.getEntity();
-        if (dataHandler.isInStaffMode(player)) {
+        if (dataHandler.isInStaffMode(player) && player.getItemInHand().getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
             event.setCancelled(true);
             followPlayer(player, playerToFollow);
         }
@@ -58,6 +66,18 @@ public class FollowModule implements Listener {
             if (isFollowingSomeone(player)) {
                 unfollowPlayer(player, null);
             }
+        }
+    }
+
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+        if (player.getPassenger() != null && !playersTeleporting.contains(player.getUniqueId())) {
+            event.setCancelled(true);
+            playersTeleporting.add(player.getUniqueId());
+            Bukkit.getScheduler().runTaskLater(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tp " + event.getPlayer().getName() +
+                    " " + event.getTo().getX() + " " + event.getTo().getY() + " " + event.getTo().getZ()), 1);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> playersTeleporting.remove(player.getUniqueId()), 10);
         }
     }
 
