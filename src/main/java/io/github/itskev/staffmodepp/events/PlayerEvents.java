@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -52,8 +53,19 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (dataHandler.isInStaffMode((Player) event.getWhoClicked())) {
+        Player player = (Player) event.getWhoClicked();
+        if (dataHandler.isInStaffMode(player) &&
+                !player.hasPermission(ConfigHelper.getStringFromConfig("Staffmode.Restrictionbypass"))) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryCreativeClick(InventoryCreativeEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        if (!player.hasPermission(ConfigHelper.getStringFromConfig("Staffmode.Restrictionbypass"))) {
+            player.closeInventory();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory, 1);
         }
     }
 

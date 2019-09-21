@@ -1,4 +1,6 @@
 Staffpermission: 'staff'
+Staffmode:
+  Restrictionbypass: 'staffmode.restrictionbypass'
 UseCommandsWithoutStaffMode:
   Permission: 'commandsWithoutStaff'
   MessageWithNoPermission: '&cCan only be used in Staffmode'
