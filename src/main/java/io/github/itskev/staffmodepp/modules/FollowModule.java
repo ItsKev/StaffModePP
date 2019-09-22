@@ -109,11 +109,20 @@ public class FollowModule implements Listener {
         player.sendMessage(stringFromConfig);
         Optional<Map.Entry<Integer, Module>> follow = staffInventory.getStaffInventory().entrySet().stream().filter(entry -> entry.getValue().getModuleName().equals("Player Options")).findFirst();
         if (follow.isPresent()) {
-            ItemStack skull = player.getInventory().getItem(follow.get().getKey());
-            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-            skullMeta.setDisplayName(follow.get().getValue().getNameOn().replace("%Player%", playerToFollow.getDisplayName()));
-            skullMeta.setOwner(playerToFollow.getName());
-            skull.setItemMeta(skullMeta);
+            ItemStack skull = null;
+            for (int i = 0; i < 9; i++) {
+                ItemStack item = player.getInventory().getItem(i);
+                if (item != null && item.getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
+                    skull = item;
+                    break;
+                }
+            }
+            if (skull != null) {
+                SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+                skullMeta.setDisplayName(follow.get().getValue().getNameOn().replace("%Player%", playerToFollow.getDisplayName()));
+                skullMeta.setOwner(playerToFollow.getName());
+                skull.setItemMeta(skullMeta);
+            }
         }
         followingStaff.put(player.getUniqueId(), playerToFollow.getUniqueId());
         playerToFollow.setPassenger(player);
