@@ -26,11 +26,11 @@ public class StaffModeCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
-            String staffpermission = ConfigHelper.getStringFromConfig("Staffpermission");
+            String staffpermission = ConfigHelper.getStringFromConfig("StaffMode.Broadcast-Permission");
             if (dataHandler.isInStaffMode(player)) {
                 String message = ConfigHelper.getStringFromConfig("StaffMode.Leave-Broadcast", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
-                    if (!p.equals(player) && player.hasPermission(staffpermission)) {
+                    if (!p.equals(player) && p.hasPermission(staffpermission)) {
                         p.sendMessage(message);
                     }
                 });
@@ -39,7 +39,7 @@ public class StaffModeCommand implements CommandExecutor {
             } else {
                 String message = ConfigHelper.getStringFromConfig("StaffMode.Enter-Broadcast", player.getDisplayName());
                 onlinePlayers.forEach(p -> {
-                    if (!p.equals(player) && player.hasPermission(staffpermission)) {
+                    if (!p.equals(player) && p.hasPermission(staffpermission)) {
                         p.sendMessage(message);
                     }
                 });

@@ -10,6 +10,7 @@ StaffMode:
   Leave-Broadcast: '&7[Staff] &c%Player% has exited Staff Mode.'
   Enter: '&7[Staff] &aYou have entered Staff Mode.'
   Leave: '&7[Staff] &cYou have exited Staff Mode.'
+  Broadcast-Permission: 'staffbroadcast'
 Vanish:
   Enter: '&7[Staff] &aYou have entered Vanish Mode.'
   Leave: '&7[Staff] &cYou have exited Vanish Mode.'
