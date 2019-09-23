@@ -8,11 +8,10 @@ import me.neznamy.tab.api.TABAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class VanishModule {
 
@@ -62,6 +61,7 @@ public class VanishModule {
             }
         });
         ActionBar.setActionBar(player, dataHandler);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false));
     }
 
     public void unVanishPlayer(Player player) {
@@ -76,5 +76,8 @@ public class VanishModule {
             Bukkit.getScheduler().runTaskLater(plugin, () -> o.showPlayer(player), 1);
         });
         ActionBar.setActionBar(player, dataHandler);
+        if (!dataHandler.isInStaffMode(player)) {
+            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+        }
     }
 }

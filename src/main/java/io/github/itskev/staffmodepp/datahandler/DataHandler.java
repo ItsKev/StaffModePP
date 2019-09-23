@@ -1,7 +1,11 @@
 package io.github.itskev.staffmodepp.datahandler;
 
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
-import io.github.itskev.staffmodepp.modules.*;
+import io.github.itskev.staffmodepp.modules.CPSModule;
+import io.github.itskev.staffmodepp.modules.FollowModule;
+import io.github.itskev.staffmodepp.modules.FreezeModule;
+import io.github.itskev.staffmodepp.modules.NoClipModule;
+import io.github.itskev.staffmodepp.modules.VanishModule;
 import io.github.itskev.staffmodepp.util.ActionBar;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import org.bukkit.GameMode;
