@@ -45,6 +45,8 @@ public class FreezeModule implements Listener {
     }
 
     public void freezePlayer(Player player, Player playerToBeFrozen) {
+        String immunePermission = ConfigHelper.getStringFromConfig("Freeze.Immune-Permission");
+        if (playerToBeFrozen.hasPermission(immunePermission)) return;
         player.sendMessage(ConfigHelper.getStringFromConfig("Freeze.Freeze-Message", playerToBeFrozen.getDisplayName()));
         if (!isFrozen(playerToBeFrozen)) {
             frozenPlayers.add(playerToBeFrozen.getUniqueId());

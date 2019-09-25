@@ -1,5 +1,5 @@
 name: StaffModePlusPlus
-version: 0.9.3
+version: 0.9.4
 main: io.github.itskev.staffmodepp.StaffModePP
 author: ItsKev
 softdepend: [PlaceholderAPI]
