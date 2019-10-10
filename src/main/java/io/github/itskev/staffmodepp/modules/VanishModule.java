@@ -4,7 +4,10 @@ import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.inventory.StaffInventory;
 import io.github.itskev.staffmodepp.util.ActionBar;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
+import me.neznamy.tab.api.EnumProperty;
 import me.neznamy.tab.api.TABAPI;
+import me.neznamy.tab.shared.ITabPlayer;
+import me.neznamy.tab.shared.Shared;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -48,8 +51,8 @@ public class VanishModule {
         staffInventory.setOn(player, "Vanish Mode");
         vanishedPlayers.add(player.getUniqueId());
         String prefix = ConfigHelper.getStringFromConfig("Vanish.Prefix-In-Vanish");
-        TABAPI.setCustomTagNameTemporarily(player.getUniqueId(), prefix + player.getName());
-        //NicknameHandler.getInstance(plugin).addCustomPlayerName(player, prefix + player.getName());
+        String originalValue = TABAPI.getOriginalValue(player.getUniqueId(), EnumProperty.TAGPREFIX);
+        TABAPI.setValueTemporarily(player.getUniqueId(), EnumProperty.TAGPREFIX, originalValue + prefix);
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         String vanishPermission = ConfigHelper.getStringFromConfig("Vanish.Permission-To-View");
         onlinePlayers.forEach(o -> {
@@ -68,8 +71,7 @@ public class VanishModule {
         player.sendMessage(ConfigHelper.getStringFromConfig("Vanish.Leave"));
         staffInventory.setOff(player, "Vanish Mode");
         vanishedPlayers.remove(player.getUniqueId());
-        TABAPI.removeTemporaryCustomTagName(player.getUniqueId());
-        //NicknameHandler.getInstance(plugin).removeCustomPlayerName(player);
+        TABAPI.removeTemporaryValue(player.getUniqueId(), EnumProperty.TAGPREFIX);
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         onlinePlayers.forEach(o -> {
             o.hidePlayer(player);

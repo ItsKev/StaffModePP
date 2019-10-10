@@ -6,7 +6,7 @@
 
     <groupId>io.github.itskev</groupId>
     <artifactId>StaffModePlusPlus</artifactId>
-    <version>0.9.4</version>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

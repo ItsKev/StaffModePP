@@ -2,6 +2,7 @@ package io.github.itskev.staffmodepp.events;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
+import me.neznamy.tab.api.EnumProperty;
 import me.neznamy.tab.api.TABAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -91,8 +92,8 @@ public class PlayerEvents implements Listener {
         }
         if (dataHandler.getVanishModule().isVanished(player)) {
             String prefix = ConfigHelper.getStringFromConfig("Vanish.Prefix-In-Vanish");
-            TABAPI.setCustomTagNameTemporarily(player.getUniqueId(), prefix + player.getName());
-            //NicknameHandler.getInstance(plugin).addCustomPlayerName(player, prefix + player.getName());
+            String originalValue = TABAPI.getOriginalValue(player.getUniqueId(), EnumProperty.TAGPREFIX);
+            TABAPI.setValueTemporarily(player.getUniqueId(), EnumProperty.TAGPREFIX, originalValue + prefix);
             plugin.getServer().getOnlinePlayers().forEach(o -> {
                 if (!o.hasPermission(vanishPermission)) {
                     o.hidePlayer(player);
