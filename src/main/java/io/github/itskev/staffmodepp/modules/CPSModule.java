@@ -63,10 +63,9 @@ public class CPSModule implements Listener {
     @EventHandler
     public void onPlayerRightClickPlayer(PlayerInteractEntityEvent event) {
         if (!(event.getRightClicked() instanceof Player)) return;
-        Player player = event.getPlayer();
-        Player playerToTest = (Player) event.getRightClicked();
-        if (dataHandler.isInStaffMode(player)) {
-            startCPSForPlayer(playerToTest, player);
+        if (dataHandler.isInStaffMode(event.getPlayer())) {
+            Player playerToTest = (Player) event.getRightClicked();
+            startCPSForPlayer(playerToTest, event.getPlayer());
         }
     }
 

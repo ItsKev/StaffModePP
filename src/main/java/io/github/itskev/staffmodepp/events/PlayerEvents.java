@@ -79,33 +79,35 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Server server = plugin.getServer();
-        Player player = event.getPlayer();
-        String vanishPermission = ConfigHelper.getStringFromConfig("Vanish.Permission-To-View");
-        if (!player.hasPermission(vanishPermission)) {
-            dataHandler.getVanishModule().getVanishedPlayers().forEach(uuid -> {
-                Player serverPlayer = server.getPlayer(uuid);
-                if (serverPlayer != null) {
-                    player.hidePlayer(serverPlayer);
-                }
-            });
-        }
-        if (dataHandler.getVanishModule().isVanished(player)) {
-            String prefix = ConfigHelper.getStringFromConfig("Vanish.Prefix-In-Vanish");
-            String originalValue = TABAPI.getOriginalValue(player.getUniqueId(), EnumProperty.TAGPREFIX);
-            TABAPI.setValueTemporarily(player.getUniqueId(), EnumProperty.TAGPREFIX, originalValue + prefix);
-            plugin.getServer().getOnlinePlayers().forEach(o -> {
-                if (!o.hasPermission(vanishPermission)) {
-                    o.hidePlayer(player);
-                } else {
-                    o.hidePlayer(player);
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> o.showPlayer(player), 1);
-                }
-            });
-        }
-        if (dataHandler.getFreezeModule().isFrozen(player)) {
-            dataHandler.getFreezeModule().refreezePlayer(player);
-        }
+        Bukkit.getServer().getScheduler().runTaskLater(plugin, () -> {
+            Server server = plugin.getServer();
+            Player player = event.getPlayer();
+            String vanishPermission = ConfigHelper.getStringFromConfig("Vanish.Permission-To-View");
+            if (!player.hasPermission(vanishPermission)) {
+                dataHandler.getVanishModule().getVanishedPlayers().forEach(uuid -> {
+                    Player serverPlayer = server.getPlayer(uuid);
+                    if (serverPlayer != null) {
+                        player.hidePlayer(serverPlayer);
+                    }
+                });
+            }
+            if (dataHandler.getVanishModule().isVanished(player)) {
+                String prefix = ConfigHelper.getStringFromConfig("Vanish.Prefix-In-Vanish");
+                String originalValue = TABAPI.getOriginalValue(player.getUniqueId(), EnumProperty.TAGPREFIX);
+                TABAPI.setValueTemporarily(player.getUniqueId(), EnumProperty.TAGPREFIX, originalValue + prefix);
+                plugin.getServer().getOnlinePlayers().forEach(o -> {
+                    if (!o.hasPermission(vanishPermission)) {
+                        o.hidePlayer(player);
+                    } else {
+                        o.hidePlayer(player);
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> o.showPlayer(player), 1);
+                    }
+                });
+            }
+            if (dataHandler.getFreezeModule().isFrozen(player)) {
+                dataHandler.getFreezeModule().refreezePlayer(player);
+            }
+        }, 5);
     }
 
     @EventHandler
