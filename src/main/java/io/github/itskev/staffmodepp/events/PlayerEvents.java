@@ -1,6 +1,7 @@
 package io.github.itskev.staffmodepp.events;
 
 import io.github.itskev.staffmodepp.datahandler.DataHandler;
+import io.github.itskev.staffmodepp.modules.VanishModule;
 import io.github.itskev.staffmodepp.util.ConfigHelper;
 import me.neznamy.tab.api.EnumProperty;
 import me.neznamy.tab.api.TABAPI;
@@ -21,6 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
@@ -160,6 +162,22 @@ public class PlayerEvents implements Listener {
             if (loc != null) {
                 openInventoriesInVanish.remove(loc);
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+        VanishModule vanishModule = dataHandler.getVanishModule();
+        if (vanishModule.isVanished(player)) {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                String vanishPermission = ConfigHelper.getStringFromConfig("Vanish.Permission-To-View");
+                plugin.getServer().getOnlinePlayers().forEach(p -> {
+                    if (!p.hasPermission(vanishPermission)) {
+                        p.hidePlayer(player);
+                    }
+                });
+            }, 5);
         }
     }
 }
